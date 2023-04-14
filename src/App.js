@@ -8,6 +8,8 @@ import {useState} from "react";
 import Footer from "./elements/Footer";
 import Notifications from "./elements/Notifications";
 import About from "./pages/About";
+import Admin from "./pages/Admin";
+import axios from "axios";
 
 function App() {
 
@@ -25,8 +27,13 @@ function App() {
     setInterval(function () {
         // System re-fetches data from the API every 60 seconds, should suffice for the purpose of this project
         //todo add axios call to API here
-        setData("hello")
-    }, 60000)
+        return axios
+            .post('http://localhost:8080/getData')
+            .then(data => {
+                console.log("Data fetched from API: " + data.data)
+                setData(data)
+            }).catch(err => err);
+        }, 30000)
 
     return (
       <div id="page-container">
@@ -38,9 +45,10 @@ function App() {
         <div id="content-wrap">
           <Routes>
               <Route exact path="home" element={<Home data={data}/>}/>
-              <Route exact path="for_hydrogen" element={<ForHydrogen data={data}/>}/>
-              <Route exact path="against_conventional" element={<AgainstConventional data={data}/>}/>
+              <Route exact path="home/for_hydrogen" element={<ForHydrogen data={data}/>}/>
+              <Route exact path="home/against_conventional" element={<AgainstConventional data={data}/>}/>
               <Route exact path="about" element={<About/>}/>
+              <Route exact path="admin" element={<Admin/>}/>
               <Route
                 path="*"
                 element={<Navigate to="home" replace/>}/>

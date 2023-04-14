@@ -1,18 +1,61 @@
 import {NavLink} from "react-router-dom";
+import hydrogen from "../assets/hydrogen.png";
+import gas from "../assets/gas.png";
 
 const Home = () => {
     return (
         <>
-            <div
-                className="card jumbotron vh-100 text-center m-0 bg-opacity-10 sharp-corners d-flex flex-column justify-content-center">
-                <div style={{position: "absolute", top: "30vh", width: "100%"}}>
-                    <h1 className="display-4">Home</h1>
-                    <p className="lead">
-                        <NavLink to="/for_hydrogen" className="btn btn-primary btn-lg m-1"
-                                 role="button">For Hydrogen</NavLink>
-                        <NavLink to="/against_conventional" className="btn btn-danger btn-lg m-1"
-                                 role="button">Against Conventional</NavLink>
-                    </p>
+            <div className="container-fluid">
+                <div className="row my-3">
+                    <div className="col">
+                        <div className="card jumbotron bg-primary">
+                            <div className="card-body text-center">
+                                <p className="card-text">
+                                    <img style={{height:"30vh"}} src={hydrogen}/>
+
+                                    <div className="card m-3">
+                                        <div className="card-body">
+                                            <p>
+                                                Hydrogen Level: 75 %
+                                            </p>
+                                            <p>
+                                                Co2 Reduction: 3923 grams
+                                            </p>
+                                            <p>
+                                                Current MPG: 14.6 MPG
+                                            </p>
+                                        </div>
+                                    </div>
+
+                                </p>
+                                <NavLink to="/home/for_hydrogen" className="btn btn-outline-light">More Supporting Hydrogen</NavLink>
+                            </div>
+                        </div>
+                    </div>
+                    <div className="col">
+                        <div className="card bg-danger h-100">
+                            <div className="card-body text-center">
+                                <p className="card-text">
+                                    <img style={{height:"30vh"}} src={gas}/>
+
+                                    <div className="card m-3">
+                                        <div className="card-body">
+                                            <p>
+                                                Diesel Particulate Reduction: 20 %
+                                            </p>
+                                            <p>
+                                                Fuel Savings: 0.385 gpm
+                                            </p>
+                                            <p>
+                                                Default MPG: 12 MPG
+                                            </p>
+                                        </div>
+                                    </div>
+                                </p>
+                                <NavLink to="/home/for_hydrogen" className="btn btn-outline-light">More Against Conventional</NavLink>
+                            </div>
+                        </div>
+                    </div>
                 </div>
             </div>
         </>
