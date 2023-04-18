@@ -1,8 +1,10 @@
+import Truck from "../assets/Flatbed_Truck.jpg";
+
 const About = () => {
     return (
         <>
           <div
-            className="container-fluid mt-4"
+            className="container-fluid"
             style={{ color: "white", backgroundColor: "#252526" }}
           >
             <h1 style={{ textAlign: "center" }}>About</h1>
@@ -15,7 +17,10 @@ const About = () => {
               a variety of stats such gas saved, hydrogen level, Co2 reduction, diesel
               particulate reduction, etc.
             </p>
-                     <div className="container-fluid" style={{ textAlign: "center" }}>
+            <p className="card" style={{ textAlign: "center", backgroundColor: "#252526" }}>
+                <img style={{ }} src={Truck}/>
+            </p>
+                     <div className="container-fluid" style={{ textAlign: "center", backgroundColor: "#252526" }}>
                        <h1>Contributors</h1>
                        <p>Ivan Pang</p>
                        <p>Cameron Settles</p>
@@ -25,13 +30,7 @@ const About = () => {
                        <p>Greg Heller</p>
                        <p>Saeed Manshadi</p>
                      </div>
-
-
-
-
-          </div>
-
-
+          </div >
         </>
     )
 }
