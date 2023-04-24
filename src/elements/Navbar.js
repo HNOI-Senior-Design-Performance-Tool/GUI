@@ -1,6 +1,8 @@
-import {NavLink, useLocation} from "react-router-dom";
+import logo from '../assets/HNO+GF+FINAL.png';
+import {NavLink, Link, useLocation} from "react-router-dom";
 import Form from 'react-bootstrap/Form';
 import {useEffect} from "react";
+
 
 
 const Navbar = () => {
@@ -14,7 +16,11 @@ const Navbar = () => {
         <>
             <header id="header" className="container-fluid p-0 sticky-top">
                 <div className="d-flex flex-column flex-md-row align-items-center">
-                    <h1 id="title" className="d-flex pt-3 pb-1 pt-sm-3 p-md-3 align-items-center">HNOI</h1>
+                    <div className="col">
+                        <Link to="/Home">
+                            <img className="mt-1" src={logo} alt="HNO" width={"25%"}/>
+                        </Link>
+                    </div>
                     <div className="container">
                         <div className="row">
                             <div className="col">
