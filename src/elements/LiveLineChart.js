@@ -11,7 +11,7 @@ const LiveLineChart = ({ botAxisLabel, leftAxisLabel }) => {
   const [data, setData] = useState([{ id: "line1", data: [] }]);
 
   // Function to add a new random data point to the chart data
-  const addRandomDataPoint = () => {
+  const addDataPoint = () => {
 
     setData((prevData) => {
       const newData = prevData.map((lineData) => ({
@@ -33,7 +33,7 @@ const LiveLineChart = ({ botAxisLabel, leftAxisLabel }) => {
 
   // Simulate adding a random data point every second
   useEffect(() => {
-    const intervalId = setInterval(addRandomDataPoint, 1000); // Add data point every second
+    const intervalId = setInterval(addDataPoint, 1000); // Add data point every second
 
     return () => clearInterval(intervalId); // Clean up the interval on unmount
   }, []);
