@@ -9,6 +9,7 @@ import Footer from "./elements/Footer";
 import Notifications from "./elements/Notifications";
 import About from "./pages/About";
 import Admin from "./pages/Admin";
+import Dashboard from './pages/Dashoard';
 import axios from "axios";
 
 function App() {
@@ -48,7 +49,7 @@ function App() {
               <Route exact path="home/for_hydrogen" element={<ForHydrogen data={data}/>}/>
               <Route exact path="home/against_conventional" element={<AgainstConventional data={data}/>}/>
               <Route exact path="about" element={<About/>}/>
-              <Route exact path="admin" element={<Admin/>}/>
+              <Route exact path="admin" element={<Dashboard/>}/>
               <Route
                 path="*"
                 element={<Navigate to="home" replace/>}/>

@@ -1,6 +1,8 @@
 import React, { useState } from 'react';
 import { BrowserRouter, Route, Switch } from 'react-router-dom';
 
+import Dashboard from './Dashoard';
+
 import Login from '../pages/Login';
 
 export default function Admin() {
@@ -11,9 +13,7 @@ export default function Admin() {
   }
 
   return (
-    <div className="wrapper">
-      <h1>Admin Dashboard</h1>
-    </div>
+    null
   );
 }
 
