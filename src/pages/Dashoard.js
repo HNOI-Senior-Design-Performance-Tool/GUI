@@ -1,17 +1,12 @@
 import React from "react";
-import LiveLineChart from "../elements/LiveLineChart";
+import LiveLineChart from "../components/LiveLineChart";
 import Grid from "@mui/material/Unstable_Grid2";
-
-
+import {useTheme} from '@mui/material';
+import { ColorModeContext, tokens } from "../theme";
 
 const Dashboard = () => {
-
-  const gridStyle = {
-    backgroundColor: "#f0f0f0", // Set your desired background color here
-    color: "#f0f0f0",
-    padding: "16px", // Add padding as needed
-    height: 400,
-  };
+  const theme = useTheme();
+  const colors = tokens(theme.palette.mode);
 
 
   return (
