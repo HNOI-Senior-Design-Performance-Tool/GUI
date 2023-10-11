@@ -1,22 +1,19 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState, useEffect, useContext } from 'react';
 import CustomResponsiveLine from './CustomResponsiveLine';
+import { LiveDataContext } from '../context/LiveData';
 
-// For testing purposes
-const generateRandomDataPoint = () => ({
-  x: new Date().toISOString(), // Use a timestamp as x value (time series)
-  y: Math.random() * 100, // Generate a random y value
-});
 
 const LiveLineChart = ({ botAxisLabel, leftAxisLabel }) => {
-  const [data, setData] = useState([{ id: "line1", data: [] }]);
+  const {data, popNextDatapoint} = useContext(LiveDataContext)
+  const [lines, setLines] = useState([{ id: "line1", data: data }]);
 
   // Function to add a new random data point to the chart data
   const addDataPoint = () => {
 
-    setData((prevData) => {
+    setLines((prevData) => {
       const newData = prevData.map((lineData) => ({
         ...lineData,
-        data: [...lineData.data, generateRandomDataPoint()],
+        data: [...lineData.data, popNextDatapoint()],
       }));
 
       // Trim data to a maximum length (e.g., to keep the chart from getting too long)
@@ -40,7 +37,7 @@ const LiveLineChart = ({ botAxisLabel, leftAxisLabel }) => {
 
   return (
     <CustomResponsiveLine
-      data={data}
+      data={lines}
       botAxisLabel= {botAxisLabel}
       leftAxisLabel= {leftAxisLabel}
     />
