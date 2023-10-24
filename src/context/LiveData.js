@@ -1,6 +1,5 @@
 import axios from 'axios';
 import {createContext, useState, useEffect} from 'react'
-import axios from 'axios';
 import moment from 'moment';
 
 export const LiveDataContext = createContext();
