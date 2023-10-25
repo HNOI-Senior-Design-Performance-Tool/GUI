@@ -5,6 +5,12 @@ import Cameron from "../assets/cameron.png";
 import Alvin from "../assets/alvin.png";
 
 const About = () => {
+    const pageStyle = {
+        border: '2px solid #333', // Add a frame around the page
+        padding: '20px',
+        borderRadius: '10px',
+    };
+
     const containerStyle = {
         textAlign: 'center',
         maxWidth: '800px',
@@ -66,7 +72,7 @@ const About = () => {
     };
 
     return (
-        <div style={containerStyle}>
+        <div style={pageStyle}>
             <div style={containerStyle}>
                 <h1 style={headingStyle}>About Us Page</h1>
                 <p style={descriptionStyle}>
