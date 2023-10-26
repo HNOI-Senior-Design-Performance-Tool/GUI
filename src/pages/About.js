@@ -29,8 +29,10 @@ const About = () => {
     };
 
     const teamHeadingStyle = {
-        fontSize: '24px',
+        fontSize: '28px',
         margin: '30px 0',
+        fontWeight: 'bold',
+        textAlign: 'center', // Center the heading
     };
 
     const teamCardStyle = {
@@ -52,11 +54,6 @@ const About = () => {
     const teamTitleStyle = {
         fontSize: '18px',
         fontWeight: 'bold',
-    };
-
-    const teamDescriptionStyle = {
-        fontSize: '16px',
-        marginBottom: '10px',
     };
 
     const teamEmailStyle = {
@@ -91,7 +88,6 @@ const About = () => {
                     <img style={teamImageStyle} src={Majid} alt="Majid" />
                     <h2>Majid Maroki</h2>
                     <p style={teamTitleStyle}>Team Leader</p>
-                    <p style={teamDescriptionStyle}>Some text that describes me.</p>
                     <p style={teamEmailStyle}>mmaroki4781@sdsu.edu</p>
                 </div>
 
@@ -104,7 +100,6 @@ const About = () => {
                     <h2>Ivan</h2>
                     <h2>Pang</h2>
                     <p style={teamTitleStyle}>GUI Lead</p>
-                    <p style={teamDescriptionStyle}>Some text that describes me.</p>
                     <p style={teamEmailStyle}>ipang6273@sdsu.edu</p>
                 </div>
 
@@ -116,7 +111,6 @@ const About = () => {
                     <img style={teamImageStyle} src={Cameron} alt="Cameron" />
                     <h2>Cameron Settles</h2>
                     <p style={teamTitleStyle}>API Lead</p>
-                    <p style={teamDescriptionStyle}>Some text that describes me.</p>
                     <p style={teamEmailStyle}>csettles7588@sdsu.edu</p>
                 </div>
 
@@ -128,7 +122,6 @@ const About = () => {
                     <img style={teamImageStyle} src={Alvin} alt="Alvin" />
                     <h2>Alvin Rofael</h2>
                     <p style={teamTitleStyle}>Project coordinator</p>
-                    <p style={teamDescriptionStyle}>Some text that describes me.</p>
                     <p style={teamEmailStyle}>arofael9581@sdsu.edu</p>
                 </div>
             </div>
