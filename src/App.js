@@ -29,16 +29,16 @@ function App() {
         }
     });
 
-    setInterval(function () {
-        // System re-fetches data from the API every 60 seconds, should suffice for the purpose of this project
-        //todo add axios call to API here
-        return axios
-            .post('http://localhost:8080/getData')
-            .then(data => {
-                console.log("Data fetched from API: " + data.data)
-                setData(data)
-            }).catch(err => err);
-        }, 30000)
+    // setInterval(function () {
+    //     // System re-fetches data from the API every 60 seconds, should suffice for the purpose of this project
+    //     //todo add axios call to API here
+    //     return axios
+    //         .post('http://localhost:8080/getData')
+    //         .then(data => {
+    //             console.log("Data fetched from API: " + data.data)
+    //             setData(data)
+    //         }).catch(err => err);
+    //     }, 30000)
 
     return (
       <ColorModeContext.Provider value={colorMode}>

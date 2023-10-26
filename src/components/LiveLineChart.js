@@ -1,43 +1,66 @@
 import React, { useState, useEffect, useContext } from 'react';
 import CustomResponsiveLine from './CustomResponsiveLine';
-import { LiveDataContext } from '../context/LiveData';
+
+import { tokens } from "../theme";
+import { useTheme } from '@mui/material/styles';
 
 
-const LiveLineChart = ({ botAxisLabel, leftAxisLabel }) => {
-  const {data, popNextDatapoint} = useContext(LiveDataContext)
-  const [lines, setLines] = useState([{ id: "line1", data: data }]);
+const LiveLineChart = ({ botAxisLabel, leftAxisLabel, data }) => {
+  const theme = useTheme();
+  const colors = tokens(theme.palette.mode);
 
-  // Function to add a new random data point to the chart data
-  const addDataPoint = () => {
-
-    setLines((prevData) => {
-      const newData = prevData.map((lineData) => ({
-        ...lineData,
-        data: [...lineData.data, popNextDatapoint()],
-      }));
-
-      // Trim data to a maximum length (e.g., to keep the chart from getting too long)
-      const maxDataLength = 50;
-      if (newData[0].data.length > maxDataLength) {
-        newData.forEach((lineData) => {
-          lineData.data.shift();
-        });
-      }
-
-      return newData;
-    });
+  const chartTheme = 
+  {
+    //"background": colors.primary[500],
+    "text": {
+      "fontSize": 11,
+      "fill": colors.grey[100],
+      "outlineWidth": 0,
+      "outlineColor": "transparent"
+    },
+    "axis": {
+      "domain": {
+        "line": {
+          "stroke": colors.grey[100],
+        },
+      },
+      "legend": {
+        "text": {
+          "fill": colors.grey[100],
+        },
+      },
+      "ticks": {
+        "line": {
+          "stroke": colors.grey[100],
+          "strokeWidth": 1,
+        },
+        "text": {
+          "fill": colors.grey[100],
+        },
+      },
+    },
+    "legends": {
+      "text": {
+        "fill": colors.grey[100],
+      },
+    },
+    "tooltip": {
+      "container": {
+        "color": colors.primary[500],
+      },
+    },
   };
 
-  // Simulate adding a random data point every second
   useEffect(() => {
-    const intervalId = setInterval(addDataPoint, 1000); // Add data point every second
+    console.log(chartTheme);
+  }, [chartTheme]);
 
-    return () => clearInterval(intervalId); // Clean up the interval on unmount
-  }, []);
+  const line = [{ "id": leftAxisLabel, "data": data }];
 
   return (
     <CustomResponsiveLine
-      data={lines}
+      data={line}
+      chartTheme={chartTheme}
       botAxisLabel= {botAxisLabel}
       leftAxisLabel= {leftAxisLabel}
     />
