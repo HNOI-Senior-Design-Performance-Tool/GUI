@@ -2,9 +2,10 @@ import { ResponsiveLine } from "@nivo/line";
 
 // parent container should have a defined height!
 
-const CustomResponsiveLine = ({ data, botAxisLabel, leftAxisLabel }) => (
+const CustomResponsiveLine = ({ data, chartTheme, botAxisLabel, leftAxisLabel }) => (
   <ResponsiveLine
     data={data}
+    theme={chartTheme}
     margin={{ top: 50, right: 110, bottom: 50, left: 60 }}
     xScale={{ type: "point" }}
     yScale={{
@@ -33,13 +34,14 @@ const CustomResponsiveLine = ({ data, botAxisLabel, leftAxisLabel }) => (
       legendOffset: -40,
       legendPosition: "middle",
     }}
-    colors={{ scheme: 'set1'}}
+    colors={{ scheme: "set1" }}
     pointSize={10}
     pointColor={{ theme: "background" }}
     pointBorderWidth={2}
     pointBorderColor={{ from: "serieColor" }}
     pointLabelYOffset={-12}
     enableCrosshair={false}
+    enablePointLabel={true}
     useMesh={true}
     animate={false}
   />
