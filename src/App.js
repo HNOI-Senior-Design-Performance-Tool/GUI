@@ -1,8 +1,8 @@
 import './App.css';
 import {Routes, Route, Navigate} from 'react-router-dom';
 import Navbar from './elements/Navbar';
-import ForHydrogen from "./pages/ForHydrogen";
-import AgainstConventional from "./pages/AgainstConventional";
+import WithHydrogen from "./pages/WithHydrogen";
+import WithoutHydrogen from "./pages/WithoutHydrogen";
 import Home from "./pages/Home";
 import {useState} from "react";
 import Footer from "./elements/Footer";
@@ -43,7 +43,7 @@ function App() {
     return (
       <ColorModeContext.Provider value={colorMode}>
         <ThemeProvider theme={theme}>
-          <CssBaseline/>
+          <CssBaseline />
           <div id="page-container">
             {/*Navbar*/}
             <Navbar />
@@ -54,13 +54,13 @@ function App() {
                 <Route exact path="home" element={<Home data={data} />} />
                 <Route
                   exact
-                  path="home/for_hydrogen"
-                  element={<ForHydrogen data={data} />}
+                  path="home/withHydrogen"
+                  element={<WithHydrogen data={data} />}
                 />
                 <Route
                   exact
-                  path="home/against_conventional"
-                  element={<AgainstConventional data={data} />}
+                  path="home/withoutHydrogen"
+                  element={<WithoutHydrogen data={data} />}
                 />
                 <Route exact path="about" element={<About />} />
                 <Route exact path="admin" element={<Dashboard />} />
