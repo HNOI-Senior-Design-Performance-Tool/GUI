@@ -68,13 +68,13 @@ const Navbar = () => {
                     <li className="nav-item">
                       <NavLink
                         id="about-btn"
-                        to="/admin"
+                        to="/dashboard"
                         onClick={clickNav}
                         className={({ isActive }) =>
                           isActive ? "nav-link active" : "nav-link"
                         }
                       >
-                        Admin
+                        Dashboard
                       </NavLink>
                     </li>
                     <li>
