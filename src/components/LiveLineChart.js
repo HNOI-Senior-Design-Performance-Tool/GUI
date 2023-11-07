@@ -51,9 +51,9 @@ const LiveLineChart = ({ botAxisLabel, leftAxisLabel, data }) => {
     },
   };
 
-  useEffect(() => {
-    console.log(chartTheme);
-  }, [chartTheme]);
+  // useEffect(() => {
+  //   console.log(chartTheme);
+  // }, [chartTheme]);
 
   const line = [{ "id": leftAxisLabel, "data": data }];
 

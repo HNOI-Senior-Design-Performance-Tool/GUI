@@ -30,25 +30,25 @@ const Dashboard = () => {
   const pollDatabase = () => {
     axios
       .get(
-        "http://localhost:8080/api/vehicleData/latestDataGT/" + latestTime.utc().format()
+        "http://localhost:8080/api/vehicleData/latestDataGT/" +
+          latestTime.utc().format("YYYY-MM-DDTHH:mm:ss.SSS[Z]")
       )
       .then((response) => {
-
         const data = response.data;
 
         if (data.length > 0) {
           setLatestTime(moment(data[data.length - 1].time));
+
           setPmData(
-            pmData.concat(data.map((d) => ({ x: d.time, y: d.particulateMatter })))
+            pmData.concat(
+              data.map((d) => ({ x: d.time, y: d.particulateMatter }))
+            )
           );
           setNoxData(
             noxData.concat(data.map((d) => ({ x: d.time, y: d.NOx })))
           );
-          setCoData(
-            coData.concat(data.map((d) => ({ x: d.time, y: d.CO })))
-          );
+          setCoData(coData.concat(data.map((d) => ({ x: d.time, y: d.CO }))));
         }
-
       })
       .catch((error) => {
         console.log(error);
@@ -64,10 +64,10 @@ const Dashboard = () => {
     }
   };
 
-  const getTimeDiffData = (data, dataField) => {
+  const getTimeDiffData = (data) => {
     return data.map((d) => ({
-      x: '-' + currentTime.diff(moment(d.time), "seconds"),
-      y: d.dataField,
+      x: "-" + currentTime.diff(moment(d.x), "seconds"),
+      y: d.y,
     }));
   };
 
@@ -84,14 +84,13 @@ const Dashboard = () => {
     setNoxData(trimData(noxData));
     setCoData(trimData(coData));
   };
-  
-  const updateRate = 1 // in seconds
+
+  const updateRate = 1; // in seconds
   useEffect(() => {
     const updateIntervalId = setInterval(updateData, updateRate * 1000);
 
     return () => clearInterval(updateIntervalId); // Clean up the interval on unmount
   });
-
 
   // Max Data Points slider
   const handleSliderChange = (event, newValue) => {
@@ -113,6 +112,11 @@ const Dashboard = () => {
       setMaxNumDataPoints(absoluteMaxNumDataPoints);
     }
   };
+
+  // useEffect(() => {
+  //   console.log(pmData);
+  //   console.log(getTimeDiffData(pmData));
+  // }, [pmData]);
 
   return (
     <Container>
