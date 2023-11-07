@@ -8,7 +8,6 @@ import {useState} from "react";
 import Footer from "./elements/Footer";
 import Notifications from "./elements/Notifications";
 import About from "./pages/About";
-import Admin from "./pages/Admin";
 import Dashboard from './pages/Dashoard';
 import axios from "axios";
 

@@ -1,5 +1,4 @@
-import {NavLink, useLocation} from "react-router-dom";
-import {useEffect} from "react";
+import {NavLink} from "react-router-dom";
 
 const MailingNotification = () => {
     return (

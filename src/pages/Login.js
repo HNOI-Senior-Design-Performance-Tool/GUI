@@ -1,7 +1,7 @@
 import logo from '../assets/HNO+GF+FINAL.png';
 import PropTypes from "prop-types";
 import {useState} from "react";
-import axios from 'axios';
+// import axios from 'axios';
 
 async function loginUser(credentials) {
     return fetch('http://localhost:8080/login', {

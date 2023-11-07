@@ -1,21 +1,18 @@
 import logo from '../assets/HNO+GF+FINAL.png';
-import {NavLink, Link, useLocation} from "react-router-dom";
+import {NavLink, Link} from "react-router-dom";
 import Form from 'react-bootstrap/Form';
-import { useEffect, useContext } from "react";
+import {useContext } from "react";
 
 
-import { ColorModeContext, tokens } from "../theme";
-import { Box, IconButton, useTheme } from "@mui/material";
+import { ColorModeContext } from "../theme";
+import {IconButton, useTheme } from "@mui/material";
 import LightModeOutlinedIcon from "@mui/icons-material/LightModeOutlined";
 import DarkModeOutlinedIcon from "@mui/icons-material/DarkModeOutlined";
 
 
 const Navbar = () => {
     const theme = useTheme();
-    const colors = tokens(theme.palette.mode);
     const colorMode = useContext(ColorModeContext);
-
-    const location = useLocation();
 
     const clickNav = () => {
         window.scrollTo(0,0);

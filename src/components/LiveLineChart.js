@@ -1,4 +1,4 @@
-import React, { useState, useEffect, useContext } from 'react';
+import React from 'react';
 import CustomResponsiveLine from './CustomResponsiveLine';
 
 import { tokens } from "../theme";
@@ -50,10 +50,6 @@ const LiveLineChart = ({ botAxisLabel, leftAxisLabel, data }) => {
       },
     },
   };
-
-  // useEffect(() => {
-  //   console.log(chartTheme);
-  // }, [chartTheme]);
 
   const line = [{ "id": leftAxisLabel, "data": data }];
 

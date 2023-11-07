@@ -11,7 +11,11 @@ const Home = () => {
               <div className="card jumbotron bg-primary">
                 <div className="card-body text-center">
                   <p className="card-text">
-                    <img style={{ height: "30vh" }} src={hydrogen} />
+                    <img
+                      style={{ height: "30vh" }}
+                      src={hydrogen}
+                      alt={"Hydrogen Fuel"}
+                    />
 
                     <div className="card m-3">
                       <div className="card-body">
@@ -34,7 +38,11 @@ const Home = () => {
               <div className="card bg-danger h-100">
                 <div className="card-body text-center">
                   <p className="card-text">
-                    <img style={{ height: "30vh" }} src={gas} />
+                    <img
+                      style={{ height: "30vh" }}
+                      src={gas}
+                      alt={"Fossil Fuel"}
+                    />
 
                     <div className="card m-3">
                       <div className="card-body">
