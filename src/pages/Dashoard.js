@@ -1,20 +1,23 @@
 import React, { useState, useEffect } from "react";
 import LiveLineChart from "../components/LiveLineChart";
 
-import { Box, Grid, Input, Slider, Typography } from "@mui/material";
+import { Box, Grid, Input, Slider, Typography, Alert } from "@mui/material";
+import TimelineRoundedIcon from "@mui/icons-material/TimelineRounded";
 
 import axios from 'axios';
-import moment from "moment";
+import moment from "moment-timezone";
 import { Container } from "@nivo/core";
 
 const Dashboard = () => {
+  let userTimezone = Intl.DateTimeFormat().resolvedOptions().timeZone;
 
   const [maxNumDataPoints, setMaxNumDataPoints] = useState(30); // max number of data points to display on the chart
 
-  // const initTime = moment.utc().format();
-  const initTime = "2023-10-07T00:00:00.000Z";
+  // const initTime = moment.utc();
+  const initTime = moment("2023-10-01T00:00:00.000Z");
 
-  const [latestTime, setLatestTime] = useState(initTime); // latest time
+  const [latestTime, setLatestTime] = useState(initTime); // latest timestamp of data received from the database
+  const [currentTime, setCurrentTime] = useState(moment.utc()); // current time
 
   // create a state for each line chart's data
   // initialize each state with the latest datapoint
@@ -27,13 +30,14 @@ const Dashboard = () => {
   const pollDatabase = () => {
     axios
       .get(
-        "http://localhost:8080/api/vehicleData/latestDataGT/" + latestTime
+        "http://localhost:8080/api/vehicleData/latestDataGT/" + latestTime.utc().format()
       )
       .then((response) => {
+
         const data = response.data;
 
         if (data.length > 0) {
-          setLatestTime(data[data.length - 1].time);
+          setLatestTime(moment(data[data.length - 1].time));
           setPmData(
             pmData.concat(data.map((d) => ({ x: d.time, y: d.particulateMatter })))
           );
@@ -60,20 +64,34 @@ const Dashboard = () => {
     }
   };
 
-  // function that combines the trimData and pollDatabase functions
+  const getTimeDiffData = (data, dataField) => {
+    return data.map((d) => ({
+      x: '-' + currentTime.diff(moment(d.time), "seconds"),
+      y: d.dataField,
+    }));
+  };
+
+  // Functions that facillitate live data updates
   const updateData = () => {
+    // Maintain the current time for calculating the time difference for each data point
+    setCurrentTime(moment.utc());
+
+    // Poll the database for new data and update the data states
     pollDatabase();
+
+    // Trim the data arrays to the max number of data points
     setPmData(trimData(pmData));
     setNoxData(trimData(noxData));
     setCoData(trimData(coData));
   };
   
-  const pollRate = 5 // in seconds
+  const updateRate = 1 // in seconds
   useEffect(() => {
-    const intervalId = setInterval(updateData, pollRate*1000);
+    const updateIntervalId = setInterval(updateData, updateRate * 1000);
 
-    return () => clearInterval(intervalId); // Clean up the interval on unmount
+    return () => clearInterval(updateIntervalId); // Clean up the interval on unmount
   });
+
 
   // Max Data Points slider
   const handleSliderChange = (event, newValue) => {
@@ -98,11 +116,25 @@ const Dashboard = () => {
 
   return (
     <Container>
-      <Box sx={{ width: 250 }}>
+      <Alert severity="info">
+        Current Time:{" "}
+        {currentTime.tz(userTimezone).format("MM-DD-YYYY HH:mm:ss")}
+      </Alert>
+      <Alert severity="info" sx={{ mb: 2 }}>
+        Data last recieved:{" "}
+        {latestTime.tz(userTimezone).format("MM-DD-YYYY HH:mm:ss")}
+      </Alert>
+
+      <Box sx={{ width: 250, height: 300 }}>
         <Typography id="input-slider" gutterBottom>
           Max Number of Data Points
         </Typography>
+
         <Grid container spacing={2} alignItems="center">
+          <Grid item>
+            <TimelineRoundedIcon />
+          </Grid>
+
           <Grid item xs>
             <Slider
               value={maxNumDataPoints}
@@ -114,6 +146,7 @@ const Dashboard = () => {
               max={absoluteMaxNumDataPoints}
             />
           </Grid>
+
           <Grid item>
             <Input
               value={maxNumDataPoints}
@@ -131,28 +164,33 @@ const Dashboard = () => {
           </Grid>
         </Grid>
       </Box>
+      <Container>
+        <Grid container spacing={1}>
+          <Grid xs={4} style={{ height: 300 }}>
+            <LiveLineChart
+              botAxisLabel="Time"
+              leftAxisLabel="Particulate Matter"
+              data={getTimeDiffData(pmData, "particulateMatter")}
+            />
+          </Grid>
 
-      <Grid container spacing={2}>
-        <Grid xs={6} style={{ height: 400 }}>
-          <LiveLineChart
-            botAxisLabel="Time"
-            leftAxisLabel="Particulate Matter"
-            data={pmData}
-          />
-        </Grid>
+          <Grid xs={4} style={{ height: 300 }}>
+            <LiveLineChart
+              botAxisLabel="Time"
+              leftAxisLabel="NOx"
+              data={getTimeDiffData(noxData, "NOx")}
+            />
+          </Grid>
 
-        <Grid xs={6} style={{ height: 400 }}>
-          <LiveLineChart
-            botAxisLabel="Time"
-            leftAxisLabel="NOx"
-            data={noxData}
-          />
+          <Grid xs={4} style={{ height: 300 }}>
+            <LiveLineChart
+              botAxisLabel="Time"
+              leftAxisLabel="CO"
+              data={getTimeDiffData(coData, "CO")}
+            />
+          </Grid>
         </Grid>
-
-        <Grid xs={12} style={{ height: 400 }}>
-          <LiveLineChart botAxisLabel="Time" leftAxisLabel="CO" data={coData} />
-        </Grid>
-      </Grid>
+      </Container>
     </Container>
   );
 };
