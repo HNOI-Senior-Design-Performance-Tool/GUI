@@ -3,7 +3,7 @@ import { ResponsiveBar } from "@nivo/bar";
 import { useChartTheme } from "./chartTheme";
 
 // parent container needs a defined height
-const CustomResponsiveBar = ({ barData, botAxisLabel, leftAxisLabel }) => {
+const CustomResponsiveBar = ({ barData, botAxisLabel, leftAxisLabel, onClick }) => {
     
     let chartTheme = useChartTheme();
 
@@ -11,6 +11,7 @@ const CustomResponsiveBar = ({ barData, botAxisLabel, leftAxisLabel }) => {
     return (
       <ResponsiveBar
         data={barData}
+        onClick={onClick}
         theme={chartTheme}
         keys={["CO2", "NOx", "PM"]}
         indexBy={botAxisLabel}

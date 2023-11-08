@@ -1,5 +1,7 @@
-import { Box, Grid, Typography } from "@mui/material";
+import { Box, Card, Grid, Typography } from "@mui/material";
 import { Container } from "@nivo/core";
+
+import { useState } from "react";
 
 import { tokens } from "../theme";
 import { useTheme } from "@mui/material/styles";
@@ -7,9 +9,33 @@ import { useTheme } from "@mui/material/styles";
 import CustomResponsiveBar from "../components/CustomResponsiveBar";
 import CustomResponsiveBullet from "../components/CustomResponsiveBullet";
 
+import { CO2InfoCard, NOxInfoCard, PMInfoCard } from "../components/InfoCards";
+
 const WithHydrogen = ({ data }) => {
   const theme = useTheme();
   const colors = tokens(theme.palette.mode);
+
+  const [infoCard, setInfoCard] = useState(<CO2InfoCard data={data} />);
+
+  const handleBarClick = (barData) => {
+    const emissionType = barData.id;
+
+    switch (emissionType) {
+      case "CO2":
+        setInfoCard(<CO2InfoCard data={data} />);
+        break;
+      case "NOx":
+        setInfoCard(<NOxInfoCard data={data} />);
+        break;
+      case "PM":
+        setInfoCard(<PMInfoCard data={data} />);
+        break;
+      default:
+        setInfoCard(<CO2InfoCard data={data} />);
+        break;
+    }
+
+  };
 
   let barData = [
     {
@@ -41,22 +67,21 @@ const WithHydrogen = ({ data }) => {
       </Typography>
 
       <Container>
-        <Grid container spacing={1}>
-          <Grid item xs={4} style={{ height: 500 }} >
+        <Grid container spacing={2}>
+          <Grid item xs={4} style={{ height: 500 }}>
             <CustomResponsiveBar
               barData={barData}
               botAxisLabel="Vehicle"
               leftAxisLabel="Averaged Emissions (L)"
+              onClick={handleBarClick}
             />
           </Grid>
 
-          <Grid item xs={4} style={{ height: 500 }} >
-
-            
-
+          <Grid item xs={4} style={{ height: 500 }}>
+            {infoCard}
           </Grid>
 
-          <Grid item xs={4} style={{ height: 380 }} >
+          <Grid item xs={4} style={{ height: 380 }}>
             <Typography
               variant="h2"
               component="h2"
