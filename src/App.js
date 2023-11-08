@@ -21,7 +21,7 @@ function App() {
       average_CO2_emissions: 10,
       average_NOx_emissions: 5,
       average_PM_emissions: 2,
-      average_MPG: 0,
+      average_MPG: 10,
     });
 
     return (

@@ -24,20 +24,25 @@ const WithHydrogen = ({ data }) => {
     {
       id: "2016 Ford Escape",
       ranges: [0, 5, 10, 15, 20, 25, 30, 35, 40, 45, 50],
-      measures: [12, 5],
+      measures: [data.average_MPG],
       markers: [14],
     },
   ];
 
   return (
     <Box>
-      <Typography variant="h1" component="h2" align="center" sx={{ mt: 5, mb: 5 }}>
+      <Typography
+        variant="h1"
+        component="h2"
+        align="center"
+        sx={{ mt: 5, mb: 5 }}
+      >
         With Hydrogen
       </Typography>
 
       <Container>
         <Grid container spacing={1}>
-          <Grid item xs={4} style={{ height: 500 }}>
+          <Grid item xs={4} style={{ height: 500 }} >
             <CustomResponsiveBar
               barData={barData}
               botAxisLabel="Vehicle"
@@ -45,7 +50,22 @@ const WithHydrogen = ({ data }) => {
             />
           </Grid>
 
-          <Grid item xs={4} style={{ height: 300 }}>
+          <Grid item xs={4} style={{ height: 500 }} >
+
+            
+
+          </Grid>
+
+          <Grid item xs={4} style={{ height: 380 }} >
+            <Typography
+              variant="h2"
+              component="h2"
+              align="center"
+              sx={{ mt: 5, mb: 5 }}
+            >
+              MPG Comparison
+            </Typography>
+
             <CustomResponsiveBullet
               bulletData={bulletData.map((d) => ({
                 ...d,

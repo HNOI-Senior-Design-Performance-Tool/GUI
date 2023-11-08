@@ -5,7 +5,8 @@ import {useContext } from "react";
 
 
 import { ColorModeContext } from "../theme";
-import {IconButton, useTheme } from "@mui/material";
+import { CustomIconButton } from "../components/CustomIconButton";
+import { useTheme } from "@mui/material";
 import LightModeOutlinedIcon from "@mui/icons-material/LightModeOutlined";
 import DarkModeOutlinedIcon from "@mui/icons-material/DarkModeOutlined";
 
@@ -78,13 +79,13 @@ const Navbar = () => {
                       </NavLink>
                     </li>
                     <li>
-                      <IconButton onClick={colorMode.toggleColorMode}>
+                      <CustomIconButton onClick={colorMode.toggleColorMode} sx={{ml: 5}}>
                         {theme.palette.mode === "dark" ? (
                           <DarkModeOutlinedIcon />
                         ) : (
                           <LightModeOutlinedIcon />
                         )}
-                      </IconButton>
+                      </CustomIconButton>
                     </li>
                   </ul>
                 </div>

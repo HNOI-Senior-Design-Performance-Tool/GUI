@@ -1,7 +1,8 @@
 import React, { useState, useEffect } from "react";
 import LiveLineChart from "../components/LiveLineChart";
 
-import { Box, Grid, Input, Slider, Typography, Alert } from "@mui/material";
+import { Box, Grid, Input, Typography, Alert } from "@mui/material";
+import { CustomSlider } from "../components/CustomSlider";
 import TimelineRoundedIcon from "@mui/icons-material/TimelineRounded";
 
 import axios from 'axios';
@@ -140,7 +141,7 @@ const Dashboard = () => {
           </Grid>
 
           <Grid item xs>
-            <Slider
+            <CustomSlider
               value={maxNumDataPoints}
               onChange={handleSliderChange}
               onBlur={handleBlur}
@@ -169,7 +170,6 @@ const Dashboard = () => {
         </Grid>
       </Box>
 
-
       <Container>
         <Grid container spacing={1}>
           <Grid xs={4} style={{ height: 300 }}>
@@ -197,8 +197,6 @@ const Dashboard = () => {
           </Grid>
         </Grid>
       </Container>
-
-      
     </Container>
   );
 };
