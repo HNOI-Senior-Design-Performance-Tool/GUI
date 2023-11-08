@@ -1,7 +1,6 @@
 import { ResponsiveBar } from "@nivo/bar";
 
-import { tokens } from "../theme";
-import { useTheme } from "@mui/material/styles";
+import { useChartTheme } from "./chartTheme";
 
 
 // make sure parent container have a defined height when using
@@ -9,50 +8,9 @@ import { useTheme } from "@mui/material/styles";
 // no chart will be rendered.
 // website examples showcase many properties,
 // you'll often use just a few of them.
-const CustomResponsiveBar = ({ barData }) => {
-    const theme = useTheme();
-    const colors = tokens(theme.palette.mode);
+const CustomResponsiveBar = ({ barData, botAxisLabel, leftAxisLabel }) => {
     
-    const chartTheme = {
-      //"background": colors.primary[500],
-      text: {
-        fontSize: 11,
-        fill: colors.grey[100],
-        outlineWidth: 0,
-        outlineColor: "transparent",
-      },
-      axis: {
-        domain: {
-          line: {
-            stroke: colors.grey[100],
-          },
-        },
-        legend: {
-          text: {
-            fill: colors.grey[100],
-          },
-        },
-        ticks: {
-          line: {
-            stroke: colors.grey[100],
-            strokeWidth: 1,
-          },
-          text: {
-            fill: colors.grey[100],
-          },
-        },
-      },
-      legends: {
-        text: {
-          fill: colors.grey[100],
-        },
-      },
-      tooltip: {
-        container: {
-          color: colors.primary[500],
-        },
-      },
-    };
+    let chartTheme = useChartTheme();
 
 
     return (
@@ -60,7 +18,7 @@ const CustomResponsiveBar = ({ barData }) => {
         data={barData}
         theme={chartTheme}
         keys={["CO2", "NOx", "PM"]}
-        indexBy="vehicle"
+        indexBy={botAxisLabel}
         margin={{ top: 50, right: 130, bottom: 50, left: 60 }}
         padding={0.35}
         innerPadding={3}
@@ -114,7 +72,7 @@ const CustomResponsiveBar = ({ barData }) => {
           tickSize: 5,
           tickPadding: 5,
           tickRotation: 0,
-          legend: "Vehicle",
+          legend: botAxisLabel,
           legendPosition: "middle",
           legendOffset: 32,
         }}
@@ -122,7 +80,7 @@ const CustomResponsiveBar = ({ barData }) => {
           tickSize: 5,
           tickPadding: 5,
           tickRotation: 0,
-          legend: "emissions (L)",
+          legend: leftAxisLabel,
           legendPosition: "middle",
           legendOffset: -40,
         }}
@@ -159,7 +117,13 @@ const CustomResponsiveBar = ({ barData }) => {
         role="application"
         ariaLabel="Nivo bar chart"
         barAriaLabel={(e) =>
-          e.id + ": " + e.formattedValue + " for vehicle: " + e.indexValue
+          e.id +
+          ": " +
+          e.formattedValue +
+          " for " +
+          botAxisLabel +
+          ": " +
+          e.indexValue
         }
       />
     );

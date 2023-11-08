@@ -7,7 +7,7 @@ const WithHydrogen = ({ data }) => {
 
   let barData = [
     {
-      vehicle: "2016 Ford Escape",
+      Vehicle: "2016 Ford Escape",
       CO2: data.average_CO2_emissions,
       NOx: data.average_NOx_emissions,
       PM: data.average_PM_emissions,
@@ -26,7 +26,7 @@ const WithHydrogen = ({ data }) => {
       <Container>
         <Grid container spacing={1}>
           <Grid item xs={4} style={{ height: 500 }}>
-            <CustomResponsiveBar barData={barData} />
+            <CustomResponsiveBar barData={barData} botAxisLabel="Vehicle" leftAxisLabel="Averaged Emissions (L)" />
           </Grid>
         </Grid>
       </Container>
