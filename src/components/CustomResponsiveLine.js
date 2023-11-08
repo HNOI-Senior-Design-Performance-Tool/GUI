@@ -41,7 +41,7 @@ const CustomResponsiveLine = ({ data, chartTheme, botAxisLabel, leftAxisLabel })
     pointBorderColor={{ from: "serieColor" }}
     pointLabelYOffset={-12}
     enableCrosshair={false}
-    enablePointLabel={true}
+    enablePointLabel={false}
     useMesh={true}
     animate={false}
   />

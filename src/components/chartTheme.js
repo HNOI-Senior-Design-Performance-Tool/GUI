@@ -6,11 +6,11 @@ export const useChartTheme = () => {
   const colors = tokens(theme.palette.mode);
 
   return {
+    background: colors.primary[400],
     text: {
       fontSize: 11,
       fill: colors.grey[100],
       outlineWidth: 0,
-      outlineColor: "transparent",
     },
     axis: {
       domain: {
@@ -34,8 +34,39 @@ export const useChartTheme = () => {
       },
     },
     legends: {
+      title: {
+        text: {
+          fill: colors.grey[100],
+        },
+      },
       text: {
         fill: colors.grey[100],
+      },
+      ticks: {
+        line: {
+          stroke: colors.grey[100],
+        },
+        text: {
+          fill: colors.grey[100],
+        },
+      },
+    },
+    annotations: {
+      text: {
+        fill: colors.grey[100],
+        outlineWidth: 0,
+      },
+      link: {
+        stroke: colors.grey[100],
+        outlineWidth: 0,
+      },
+      outline: {
+        stroke: colors.grey[100],
+        outlineWidth: 0,
+      },
+      symbol: {
+        fill: colors.grey[100],
+        outlineWidth: 0,
       },
     },
     tooltip: {
