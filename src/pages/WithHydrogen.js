@@ -9,33 +9,19 @@ import { useTheme } from "@mui/material/styles";
 import CustomResponsiveBar from "../components/CustomResponsiveBar";
 import CustomResponsiveBullet from "../components/CustomResponsiveBullet";
 
-import { CO2InfoCard, NOxInfoCard, PMInfoCard } from "../components/InfoCards";
+import { EmissionInfoCard } from "../components/InfoCards";
 
 const WithHydrogen = ({ data }) => {
   const theme = useTheme();
   const colors = tokens(theme.palette.mode);
 
-  const [infoCard, setInfoCard] = useState(<CO2InfoCard data={data} />);
+  const [selectedEmissionType, setSelectedEmissionType] = useState("CO2");
+  const [infoCardData, setInfoCardData] = useState(data.average_CO2_emissions);
 
-  const handleBarClick = (barData) => {
-    const emissionType = barData.id;
-
-    switch (emissionType) {
-      case "CO2":
-        setInfoCard(<CO2InfoCard data={data} />);
-        break;
-      case "NOx":
-        setInfoCard(<NOxInfoCard data={data} />);
-        break;
-      case "PM":
-        setInfoCard(<PMInfoCard data={data} />);
-        break;
-      default:
-        setInfoCard(<CO2InfoCard data={data} />);
-        break;
-    }
-
-  };
+  const handleBarClick = (d) => {
+    setSelectedEmissionType(d.id);
+    setInfoCardData(d.value);
+  }
 
   let barData = [
     {
@@ -78,7 +64,7 @@ const WithHydrogen = ({ data }) => {
           </Grid>
 
           <Grid item xs={4} style={{ height: 500 }}>
-            {infoCard}
+            <EmissionInfoCard data={infoCardData} emissionType={selectedEmissionType} />
           </Grid>
 
           <Grid item xs={4} style={{ height: 380 }}>
