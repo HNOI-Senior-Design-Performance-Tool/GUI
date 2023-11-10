@@ -171,7 +171,7 @@ const Dashboard = () => {
       </Box>
 
       <Container>
-        <Grid container spacing={1}>
+        <Grid container spacing={2}>
           <Grid xs={4} style={{ height: 300 }}>
             <LiveLineChart
               botAxisLabel="Time"

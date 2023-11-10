@@ -15,56 +15,68 @@ import { ColorModeContext, useMode } from './theme';
 import { CssBaseline, ThemeProvider } from '@mui/material';
 
 function App() {
-    const [theme, colorMode] = useMode();
+  const [theme, colorMode] = useMode();
 
-    const [averagedData, setAveragedData] = useState({
-      average_CO2_emissions: 10,
-      average_NOx_emissions: 5,
-      average_PM_emissions: 2,
-      average_MPG: 10,
-    });
+  const [averagedData, setAveragedData] = useState({
+    average_CO2_emissions: 10,
+    average_NOx_emissions: 5,
+    average_PM_emissions: 2,
+    average_MPG: 10,
+  });
 
-    return (
-      <ColorModeContext.Provider value={colorMode}>
-        <ThemeProvider theme={theme}>
-          <CssBaseline />
-          <div id="page-container">
-            {/*Navbar*/}
-            <Navbar />
+  // poll database for averaged data
+  const pollDatabase = () => {
+    axios
+      .get("http://localhost:8080/api/vehicleData/averagedData")
+      .then((response) => {
+        setAveragedData(response.data);
+      })
+      .catch((error) => {
+        console.log(error);
+      });
+  };
 
-            {/*Main Content*/}
-            <div id="content-wrap">
-              <Routes>
-                <Route
-                  exact
-                  path="home"
-                  element={<Home data={averagedData} />}
-                />
-                <Route
-                  exact
-                  path="home/withHydrogen"
-                  element={<WithHydrogen data={averagedData} />}
-                />
-                <Route
-                  exact
-                  path="home/withoutHydrogen"
-                  element={<WithoutHydrogen data={averagedData} />}
-                />
-                <Route exact path="about" element={<About />} />
-                <Route exact path="dashboard" element={<Dashboard />} />
-                <Route path="*" element={<Navigate to="home" replace />} />
-              </Routes>
-            </div>
+  return (
+    <ColorModeContext.Provider value={colorMode}>
+      <ThemeProvider theme={theme}>
+        <CssBaseline />
+        <div id="page-container">
+          {/*Navbar*/}
+          <Navbar />
 
-            {/*Footer*/}
-            <Footer />
-
-            {/*Notifications*/}
-            <Notifications />
+          {/*Main Content*/}
+          <div id="content-wrap">
+            <Routes>
+              <Route
+                exact
+                path="home"
+                element={<Home data={averagedData} />}
+              />
+              <Route
+                exact
+                path="home/withHydrogen"
+                element={<WithHydrogen data={averagedData} />}
+              />
+              <Route
+                exact
+                path="home/withoutHydrogen"
+                element={<WithoutHydrogen data={averagedData} />}
+              />
+              <Route exact path="about" element={<About />} />
+              <Route exact path="dashboard" element={<Dashboard />} />
+              <Route path="*" element={<Navigate to="home" replace />} />
+            </Routes>
           </div>
-        </ThemeProvider>
-      </ColorModeContext.Provider>
-    );
+
+          {/*Footer*/}
+          <Footer />
+
+          {/*Notifications*/}
+          <Notifications />
+        </div>
+      </ThemeProvider>
+    </ColorModeContext.Provider>
+  );
 }
 
 export default App;
