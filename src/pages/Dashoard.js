@@ -117,11 +117,6 @@ const Dashboard = () => {
     }
   };
 
-  // useEffect(() => {
-  //   console.log(pmData);
-  //   console.log(getTimeDiffData(pmData));
-  // }, [pmData]);
-
   return (
     <Container>
       <Alert severity="info">

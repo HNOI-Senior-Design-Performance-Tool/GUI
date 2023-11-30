@@ -4,7 +4,7 @@ import Navbar from './elements/Navbar';
 import WithHydrogen from "./pages/WithHydrogen";
 import WithoutHydrogen from "./pages/WithoutHydrogen";
 import Home from "./pages/Home";
-import {useState} from "react";
+import {useState, useEffect} from "react";
 import Footer from "./elements/Footer";
 import Notifications from "./elements/Notifications";
 import About from "./pages/About";
@@ -17,17 +17,33 @@ import { CssBaseline, ThemeProvider } from '@mui/material';
 function App() {
   const [theme, colorMode] = useMode();
 
-  const [averagedData, setAveragedData] = useState({
-    average_CO2_emissions: 10,
-    average_NOx_emissions: 5,
-    average_PM_emissions: 2,
-    average_MPG: 10,
+  const [summedData, setSummedData] = useState({
+    CO: 10,
+    NOx: 5,
+    particulateMatter: 2,
+    mpg: 10,
   });
 
-  // poll database for averaged data
-  const pollDatabase = () => {
+  const [averagedData, setAveragedData] = useState({
+    CO: 10,
+    NOx: 5,
+    particulateMatter: 2,
+    mpg: 10,
+  });
+
+  // poll database for summed and averaged data
+  const getAggregateData = () => {
     axios
-      .get("http://localhost:8080/api/vehicleData/averagedData")
+      .get("http://localhost:8080/api/aggregateData/sumData")
+      .then((response) => {
+        setSummedData(response.data);
+      })
+      .catch((error) => {
+        console.log(error);
+      });
+
+    axios
+      .get("http://localhost:8080/api/aggregateData/avgData")
       .then((response) => {
         setAveragedData(response.data);
       })
@@ -35,6 +51,10 @@ function App() {
         console.log(error);
       });
   };
+
+  useEffect(() => {
+    getAggregateData();
+  }, []);
 
   return (
     <ColorModeContext.Provider value={colorMode}>
@@ -50,17 +70,19 @@ function App() {
               <Route
                 exact
                 path="home"
-                element={<Home data={averagedData} />}
+                element={<Home/>}
               />
               <Route
                 exact
                 path="home/withHydrogen"
-                element={<WithHydrogen data={averagedData} />}
+                element={<WithHydrogen data={{ summedData, averagedData }} />}
               />
               <Route
                 exact
                 path="home/withoutHydrogen"
-                element={<WithoutHydrogen data={averagedData} />}
+                element={
+                  <WithoutHydrogen data={{ summedData, averagedData }} />
+                }
               />
               <Route exact path="about" element={<About />} />
               <Route exact path="dashboard" element={<Dashboard />} />

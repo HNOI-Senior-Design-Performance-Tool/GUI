@@ -3,6 +3,10 @@ import {NavLink, Link} from "react-router-dom";
 import Form from 'react-bootstrap/Form';
 import {useContext } from "react";
 
+import axios from "axios";
+import { useEffect, useState } from "react";
+
+import moment from "moment-timezone";
 
 import { ColorModeContext } from "../theme";
 import { CustomIconButton } from "../components/CustomIconButton";
@@ -12,12 +16,45 @@ import DarkModeOutlinedIcon from "@mui/icons-material/DarkModeOutlined";
 
 
 const Navbar = () => {
+    let userTimezone = Intl.DateTimeFormat().resolvedOptions().timeZone;
+
     const theme = useTheme();
     const colorMode = useContext(ColorModeContext);
 
     const clickNav = () => {
         window.scrollTo(0,0);
     }
+
+    // Make an API call to get the vehicle names and IDs to populate the dropdown menu
+    const [vehicles, setVehicles] = useState([]);
+    useEffect(() => {
+        axios
+          .get("http://localhost:8080/api/vehicleData/vehicles")
+          .then((response) => {
+            const data = response.data;
+            setVehicles(data);
+          })
+          .catch((error) => {
+            console.log(error);
+          });
+    }, []);
+
+    // Make an API call to get the latest fuel level data
+    const [fuelLevel, setFuelLevel] = useState(0);
+    const [fuelLevelTime, setFuelLevelTime] = useState(moment("2000-01-01T00:00:00.000Z"));
+    useEffect(() => {
+        axios
+          .get("http://localhost:8080/api/vehicleData/latestFuelLevel")
+          .then((response) => {
+            const data = response.data;
+            setFuelLevel(data.fuelLevel);
+            setFuelLevelTime(moment(data.time));
+          })
+          .catch((error) => {
+            console.log(error);
+          });
+    }, []);
+
 
     return (
       <>
@@ -32,10 +69,12 @@ const Navbar = () => {
               <div className="row">
                 <div className="col">
                   <Form.Select className="p-3" size="sm">
-                    <option>Choose vehicle</option>
-                    <option value="1">Toyota Transporter 2005</option>
-                    <option value="2">Ford Truck 2002</option>
-                    <option value="3">Aston Martin 2001</option>
+                    <option>Choose a Vehicle</option>
+                    {vehicles.map((vehicle) => (
+                      <option key={vehicle.vehicleID} value={vehicle.vehicleID}>
+                        {vehicle.vehicleName + " - " + vehicle.vehicleID}
+                      </option>
+                    ))}
                   </Form.Select>
                 </div>
                 <div className="col">
@@ -79,7 +118,10 @@ const Navbar = () => {
                       </NavLink>
                     </li>
                     <li>
-                      <CustomIconButton onClick={colorMode.toggleColorMode} sx={{ml: 5}}>
+                      <CustomIconButton
+                        onClick={colorMode.toggleColorMode}
+                        sx={{ ml: 5 }}
+                      >
                         {theme.palette.mode === "dark" ? (
                           <DarkModeOutlinedIcon />
                         ) : (
@@ -94,18 +136,43 @@ const Navbar = () => {
           </div>
 
           <div className="bg-black p-1">
-            <div className="progress" style={{ height: "7vh" }}>
+            <div
+              className="progress "
+              style={{ height: "7vh", color: "black" }}
+            >
               <div
-                className="progress-bar w-75"
+                className="progress-bar"
                 role="progressbar"
-                aria-valuenow="82"
+                style={{ width: `${fuelLevel}%` }} // Set the width to fuelLevel
+                aria-valuenow={fuelLevel} // Set aria-valuenow to fuelLevel
                 aria-valuemin="0"
                 aria-valuemax="100"
               >
-                Hydrogen Level{" "}
-                <span className="text-decoration-underline">
-                  at 2023-03-15 10:19:58
-                </span>
+                {fuelLevel > 20 && ( // Only render the text inside the progress bar if fuelLevel is above 20%
+                  <>
+                    Hydrogen Level at {fuelLevel}% as of{" "}
+                    <span className="text-decoration-underline">
+                      {fuelLevelTime
+                        .tz(userTimezone)
+                        .format("MM-DD-YYYY HH:mm:ss")}
+                    </span>
+                  </>
+                )}
+              </div>
+              <div
+                style={{
+                  display: "flex",
+                  justifyContent: "center",
+                  alignItems: "center",
+                  marginLeft: "1vw",
+                }}
+              >
+                {fuelLevel <= 20 && ( // Only render the text inside the progress bar if fuelLevel is above 20%
+                  <>
+                    Hydrogen Level at {fuelLevel}% as of {" "}
+                    {fuelLevelTime.tz(userTimezone).format("MM-DD-YYYY HH:mm:ss")}
+                  </>
+                )}
               </div>
             </div>
           </div>

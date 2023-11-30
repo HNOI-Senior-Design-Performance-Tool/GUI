@@ -16,7 +16,7 @@ export const EmissionInfoCard = ({ data, emissionType}) => {
   useEffect(() => {
     switch (emissionType) {
       case "CO2":
-        setTitle("CO2");
+        setTitle("CO2 Emissions");
         setBody(
           <Typography
             variant="body1"
@@ -39,7 +39,7 @@ export const EmissionInfoCard = ({ data, emissionType}) => {
         break;
 
       case "NOx":
-        setTitle("NOx");
+        setTitle("NOx Emissions");
         setBody(
           <Typography
             variant="body1"
@@ -62,7 +62,7 @@ export const EmissionInfoCard = ({ data, emissionType}) => {
         break;
 
       case "PM":
-        setTitle("Particulate Matter");
+        setTitle("Particulate Matter Emissions");
         setBody(
           <Typography
               variant="body1"
@@ -84,9 +84,9 @@ export const EmissionInfoCard = ({ data, emissionType}) => {
         break;
 
       default:
-        setTitle(String(emissionType));
-        setBody(<Typography>Emission Type not impemented</Typography>);
-        setLink("https://www.epa.gov/ghgemissions/overview-greenhouse-gases");
+        setTitle("Click on a bar to see more info");
+        setBody("");
+        setLink("");
     }
   }, [emissionType]);
 
@@ -106,7 +106,7 @@ export const EmissionInfoCard = ({ data, emissionType}) => {
             align="center"
             style={{ paddingTop: 20 }}
           >
-            {title} Emissions
+            {title}
           </Typography>
         </Grid>
 

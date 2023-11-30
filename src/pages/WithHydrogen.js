@@ -15,8 +15,12 @@ const WithHydrogen = ({ data }) => {
   const theme = useTheme();
   const colors = tokens(theme.palette.mode);
 
-  const [selectedEmissionType, setSelectedEmissionType] = useState("CO2");
-  const [infoCardData, setInfoCardData] = useState(data.average_CO2_emissions);
+  const averagedData = data.averagedData;
+  const summedData = data.summedData;
+
+
+  const [selectedEmissionType, setSelectedEmissionType] = useState("default");
+  const [infoCardData, setInfoCardData] = useState();
 
   const handleBarClick = (d) => {
     setSelectedEmissionType(d.id);
@@ -26,9 +30,9 @@ const WithHydrogen = ({ data }) => {
   let barData = [
     {
       Vehicle: "2016 Ford Escape",
-      CO2: data.average_CO2_emissions,
-      NOx: data.average_NOx_emissions,
-      PM: data.average_PM_emissions,
+      CO2: averagedData.CO,
+      NOx: averagedData.NOx,
+      PM: averagedData.particulateMatter,
     },
   ];
 
@@ -36,7 +40,7 @@ const WithHydrogen = ({ data }) => {
     {
       id: "2016 Ford Escape",
       ranges: [0, 5, 10, 15, 20, 25, 30, 35, 40, 45, 50],
-      measures: [data.average_MPG],
+      measures: [averagedData.mpg],
       markers: [14],
     },
   ];
