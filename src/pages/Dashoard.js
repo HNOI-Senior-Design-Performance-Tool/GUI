@@ -18,7 +18,10 @@ const Dashboard = () => {
   const initTime = moment("2023-10-01T00:00:00.000Z");
 
   const [latestTime, setLatestTime] = useState(initTime); // latest timestamp of data received from the database
-  const [currentTime, setCurrentTime] = useState(moment.utc()); // current time
+  //const [currentTime, setCurrentTime] = useState(moment.utc()); // current time
+  const [currentTime, setCurrentTime] = useState(
+    moment("2023-11-11T12:00:00.001+00:00").utc()
+  ); // current time
 
   // create a state for each line chart's data
   // initialize each state with the latest datapoint
@@ -75,7 +78,7 @@ const Dashboard = () => {
   // Functions that facillitate live data updates
   const updateData = () => {
     // Maintain the current time for calculating the time difference for each data point
-    setCurrentTime(moment.utc());
+    //setCurrentTime(moment.utc());
 
     // Poll the database for new data and update the data states
     pollDatabase();
