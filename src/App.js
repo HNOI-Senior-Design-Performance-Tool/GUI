@@ -14,88 +14,52 @@ import axios from "axios";
 import { ColorModeContext, useMode } from './theme';
 import { CssBaseline, ThemeProvider } from '@mui/material';
 
+import { VehicleProvider } from "./context/VehicleContext";
+import { AggregateDataProvider } from "./context/AggregateDataContext";
+
 function App() {
   const [theme, colorMode] = useMode();
-
-  const [summedData, setSummedData] = useState({
-    CO: 10,
-    NOx: 5,
-    particulateMatter: 2,
-    mpg: 10,
-  });
-
-  const [averagedData, setAveragedData] = useState({
-    CO: 10,
-    NOx: 5,
-    particulateMatter: 2,
-    mpg: 10,
-  });
-
-  // poll database for summed and averaged data
-  const getAggregateData = () => {
-    axios
-      .get("http://localhost:8080/api/aggregateData/sumData")
-      .then((response) => {
-        setSummedData(response.data);
-      })
-      .catch((error) => {
-        console.log(error);
-      });
-
-    axios
-      .get("http://localhost:8080/api/aggregateData/avgData")
-      .then((response) => {
-        setAveragedData(response.data);
-      })
-      .catch((error) => {
-        console.log(error);
-      });
-  };
-
-  useEffect(() => {
-    getAggregateData();
-  }, []);
 
   return (
     <ColorModeContext.Provider value={colorMode}>
       <ThemeProvider theme={theme}>
-        <CssBaseline />
-        <div id="page-container">
-          {/*Navbar*/}
-          <Navbar />
+        <VehicleProvider>
+          <AggregateDataProvider>
+            <CssBaseline />
+            <div id="page-container">
+              {/*Navbar*/}
+              <Navbar />
 
-          {/*Main Content*/}
-          <div id="content-wrap">
-            <Routes>
-              <Route
-                exact
-                path="home"
-                element={<Home/>}
-              />
-              <Route
-                exact
-                path="home/withHydrogen"
-                element={<WithHydrogen data={{ summedData, averagedData }} />}
-              />
-              <Route
-                exact
-                path="home/withoutHydrogen"
-                element={
-                  <WithoutHydrogen data={{ summedData, averagedData }} />
-                }
-              />
-              <Route exact path="about" element={<About />} />
-              <Route exact path="dashboard" element={<Dashboard />} />
-              <Route path="*" element={<Navigate to="home" replace />} />
-            </Routes>
-          </div>
+              {/*Main Content*/}
+              <div id="content-wrap">
+                <Routes>
+                  <Route exact path="home" element={<Home/>} />
+                  <Route
+                    exact
+                    path="home/withHydrogen"
+                    element={<WithHydrogen/>}
+                  />
+                  <Route
+                    exact
+                    path="home/withoutHydrogen"
+                    element={
+                      <WithoutHydrogen/>
+                    }
+                  />
+                  <Route exact path="about" element={<About />} />
+                  <Route exact path="dashboard" element={<Dashboard />} />
+                  <Route path="*" element={<Navigate to="home" replace />} />
+                </Routes>
+              </div>
 
-          {/*Footer*/}
-          <Footer />
+              {/*Footer*/}
+              <Footer />
 
-          {/*Notifications*/}
-          <Notifications />
-        </div>
+              {/*Notifications*/}
+              <Notifications />
+            </div>
+          </AggregateDataProvider>
+        </VehicleProvider>
       </ThemeProvider>
     </ColorModeContext.Provider>
   );

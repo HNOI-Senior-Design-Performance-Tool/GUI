@@ -1,7 +1,7 @@
-import { Box, Card, Grid, Typography } from "@mui/material";
+import { Box, Grid, Typography } from "@mui/material";
 import { Container } from "@nivo/core";
 
-import { useState } from "react";
+import { useState, useContext } from "react";
 
 import { tokens } from "../theme";
 import { useTheme } from "@mui/material/styles";
@@ -11,13 +11,15 @@ import CustomResponsiveBullet from "../components/CustomResponsiveBullet";
 
 import { EmissionInfoCard } from "../components/InfoCards";
 
-const WithHydrogen = ({ data }) => {
+import { AggregateDataContext } from "../context/AggregateDataContext";
+import { VehicleContext } from "../context/VehicleContext";
+
+const WithHydrogen = () => {
   const theme = useTheme();
   const colors = tokens(theme.palette.mode);
 
-  const averagedData = data.averagedData;
-  const summedData = data.summedData;
-
+  const { averagedData, summedData } = useContext(AggregateDataContext);
+  const { selectedVehicle } = useContext(VehicleContext);
 
   const [selectedEmissionType, setSelectedEmissionType] = useState("default");
   const [infoCardData, setInfoCardData] = useState();
@@ -27,22 +29,24 @@ const WithHydrogen = ({ data }) => {
     setInfoCardData(d.value);
   }
 
+  // load bar with averaged data
+  // use all zeros if no data is available
   let barData = [
-    {
-      Vehicle: "2016 Ford Escape",
-      CO2: averagedData.CO,
-      NOx: averagedData.NOx,
-      PM: averagedData.particulateMatter,
-    },
+		{
+			Vehicle: selectedVehicle.vehicleName || "Unknown",
+			CO2: averagedData.CO || -1,
+			NOx: averagedData.NOx || -1,
+			PM: averagedData.particulateMatter || -1,
+		},
   ];
 
   let bulletData = [
-    {
-      id: "2016 Ford Escape",
-      ranges: [0, 5, 10, 15, 20, 25, 30, 35, 40, 45, 50],
-      measures: [averagedData.mpg],
-      markers: [14],
-    },
+		{
+			id: selectedVehicle.vehicleName || "Unknown",
+			ranges: [0, 5, 10, 15, 20, 25, 30, 35, 40, 45, 50],
+			measures: [averagedData.mpg || 0],
+			markers: [14],
+		},
   ];
 
   return (

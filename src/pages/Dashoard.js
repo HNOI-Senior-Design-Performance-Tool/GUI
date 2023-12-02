@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from "react";
+import React, { useState, useEffect, useContext } from "react";
 import LiveLineChart from "../components/LiveLineChart";
 
 import { Box, Grid, Input, Typography, Alert } from "@mui/material";
@@ -9,13 +9,15 @@ import axios from 'axios';
 import moment from "moment-timezone";
 import { Container } from "@nivo/core";
 
+import { VehicleContext } from "../context/VehicleContext";
+
 const Dashboard = () => {
   let userTimezone = Intl.DateTimeFormat().resolvedOptions().timeZone;
 
   const [maxNumDataPoints, setMaxNumDataPoints] = useState(30); // max number of data points to display on the chart
 
   // const initTime = moment.utc();
-  const initTime = moment("2023-10-01T00:00:00.000Z");
+  const initTime = moment("2000-10-01T00:00:00.000Z");
 
   const [latestTime, setLatestTime] = useState(initTime); // latest timestamp of data received from the database
   //const [currentTime, setCurrentTime] = useState(moment.utc()); // current time
@@ -29,13 +31,16 @@ const Dashboard = () => {
   const [noxData, setNoxData] = useState([{ x: initTime, y: 0 }]);
   const [coData, setCoData] = useState([{ x: initTime, y: 0 }]);
 
+  const { selectedVehicle } = useContext(VehicleContext);
+
   // poll the database for an array of all the new data (using '/latestDataGT/:startTime')
   // then append new data to the existing data
   const pollDatabase = () => {
     axios
       .get(
         "http://localhost:8080/api/vehicleData/latestDataGT/" +
-          latestTime.utc().format("YYYY-MM-DDTHH:mm:ss.SSS[Z]")
+          latestTime.utc().format("YYYY-MM-DDTHH:mm:ss.SSS[Z]") +
+          "?vehicleID=" + selectedVehicle.vehicleID
       )
       .then((response) => {
         const data = response.data;
@@ -44,14 +49,14 @@ const Dashboard = () => {
           setLatestTime(moment(data[data.length - 1].time));
 
           setPmData(
-            pmData.concat(
-              data.map((d) => ({ x: d.time, y: d.particulateMatter }))
-            )
+            pmData.concat(data.map((d) => ({ x: d.time, y: d.particulateMatter })))
           );
           setNoxData(
             noxData.concat(data.map((d) => ({ x: d.time, y: d.NOx })))
           );
-          setCoData(coData.concat(data.map((d) => ({ x: d.time, y: d.CO }))));
+          setCoData(
+            coData.concat(data.map((d) => ({ x: d.time, y: d.CO })))
+          );
         }
       })
       .catch((error) => {
@@ -78,7 +83,7 @@ const Dashboard = () => {
   // Functions that facillitate live data updates
   const updateData = () => {
     // Maintain the current time for calculating the time difference for each data point
-    //setCurrentTime(moment.utc());
+    setCurrentTime(moment.utc());
 
     // Poll the database for new data and update the data states
     pollDatabase();
@@ -88,6 +93,18 @@ const Dashboard = () => {
     setNoxData(trimData(noxData));
     setCoData(trimData(coData));
   };
+
+  
+  useEffect(() => {
+		// Reset the line chart data when selectedVehicle changes
+		setPmData([{ x: initTime, y: 0 }]);
+		setNoxData([{ x: initTime, y: 0 }]);
+		setCoData([{ x: initTime, y: 0 }]);
+
+    // Reset the latest time when selectedVehicle changes
+    setLatestTime(initTime);
+
+  }, [selectedVehicle]);
 
   const updateRate = 1; // in seconds
   useEffect(() => {
