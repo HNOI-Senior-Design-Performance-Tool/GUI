@@ -4,12 +4,10 @@ import Navbar from './elements/Navbar';
 import WithHydrogen from "./pages/WithHydrogen";
 import WithoutHydrogen from "./pages/WithoutHydrogen";
 import Home from "./pages/Home";
-import {useState, useEffect} from "react";
 import Footer from "./elements/Footer";
 import Notifications from "./elements/Notifications";
 import About from "./pages/About";
 import Dashboard from './pages/Dashoard';
-import axios from "axios";
 
 import { ColorModeContext, useMode } from './theme';
 import { CssBaseline, ThemeProvider } from '@mui/material';

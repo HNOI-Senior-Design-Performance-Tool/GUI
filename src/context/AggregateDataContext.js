@@ -28,7 +28,7 @@ export const AggregateDataProvider = ({ children }) => {
 		if (selectedVehicle) {
 			// poll database for summed and averaged data
 			axios
-				.get("http://localhost:8080/api/aggregateData/sumData?vehicleID" + selectedVehicle.vehicleID)
+				.get("http://localhost:8080/api/aggregateData/sumData?vehicleID=" + selectedVehicle.vehicleID)
 				.then((response) => {
 					setSummedData(response.data);
 				})

@@ -20,10 +20,8 @@ const Dashboard = () => {
   const initTime = moment("2000-10-01T00:00:00.000Z");
 
   const [latestTime, setLatestTime] = useState(initTime); // latest timestamp of data received from the database
-  //const [currentTime, setCurrentTime] = useState(moment.utc()); // current time
-  const [currentTime, setCurrentTime] = useState(
-    moment("2023-11-11T12:00:00.001+00:00").utc()
-  ); // current time
+  const [currentTime, setCurrentTime] = useState(moment.utc()); // current time
+  // const [currentTime, setCurrentTime] = useState(moment("2023-11-11T12:00:00.001+00:00").utc()); // current time
 
   // create a state for each line chart's data
   // initialize each state with the latest datapoint
@@ -43,25 +41,31 @@ const Dashboard = () => {
           "?vehicleID=" + selectedVehicle.vehicleID
       )
       .then((response) => {
-        const data = response.data;
 
-        if (data.length > 0) {
-          setLatestTime(moment(data[data.length - 1].time));
+      // Update the current time
+      setCurrentTime(moment.utc());
 
-          setPmData(
-            pmData.concat(data.map((d) => ({ x: d.time, y: d.particulateMatter })))
-          );
-          setNoxData(
-            noxData.concat(data.map((d) => ({ x: d.time, y: d.NOx })))
-          );
-          setCoData(
-            coData.concat(data.map((d) => ({ x: d.time, y: d.CO })))
-          );
-        }
-      })
+			const data = response.data;
+
+			if (data.length > 0) {
+				setLatestTime(moment(data[data.length - 1].createdAt));
+
+				setPmData(trimData(pmData.concat(data.map((d) => ({ x: d.createdAt, y: d.particulateMatter })))));
+				setNoxData(trimData(noxData.concat(data.map((d) => ({ x: d.createdAt, y: d.NOx })))));
+				setCoData(trimData(coData.concat(data.map((d) => ({ x: d.createdAt, y: d.CO })))));
+			}
+      else {
+        // Trim the data arrays to the max number of data points
+        setPmData(trimData(pmData));
+        setNoxData(trimData(noxData));
+        setCoData(trimData(coData));
+      }
+
+
+		})
       .catch((error) => {
         console.log(error);
-      });
+    });
   };
 
   // function to trim the data arrays to the max number of data points
@@ -74,26 +78,13 @@ const Dashboard = () => {
   };
 
   const getTimeDiffData = (data) => {
+    console.log(moment.utc());
+    console.log(data);
     return data.map((d) => ({
-      x: "-" + currentTime.diff(moment(d.x), "seconds"),
+      x: "-" + moment.utc().diff(moment(d.x), "seconds"),
       y: d.y,
     }));
   };
-
-  // Functions that facillitate live data updates
-  const updateData = () => {
-    // Maintain the current time for calculating the time difference for each data point
-    setCurrentTime(moment.utc());
-
-    // Poll the database for new data and update the data states
-    pollDatabase();
-
-    // Trim the data arrays to the max number of data points
-    setPmData(trimData(pmData));
-    setNoxData(trimData(noxData));
-    setCoData(trimData(coData));
-  };
-
   
   useEffect(() => {
 		// Reset the line chart data when selectedVehicle changes
@@ -101,17 +92,22 @@ const Dashboard = () => {
 		setNoxData([{ x: initTime, y: 0 }]);
 		setCoData([{ x: initTime, y: 0 }]);
 
-    // Reset the latest time when selectedVehicle changes
-    setLatestTime(initTime);
+		// Reset the latest time when selectedVehicle changes
+		setLatestTime(initTime);
 
+		// eslint-disable-next-line
   }, [selectedVehicle]);
 
   const updateRate = 1; // in seconds
   useEffect(() => {
-    const updateIntervalId = setInterval(updateData, updateRate * 1000);
+    const updateIntervalId = setInterval(pollDatabase, updateRate * 1000);
 
     return () => clearInterval(updateIntervalId); // Clean up the interval on unmount
   });
+
+
+  
+
 
   // Max Data Points slider
   const handleSliderChange = (event, newValue) => {

@@ -32,19 +32,19 @@ const WithHydrogen = () => {
   // load bar with averaged data
   // use all zeros if no data is available
   let barData = [
-		{
-			Vehicle: selectedVehicle.vehicleName || "Unknown",
-			CO2: averagedData.CO || -1,
-			NOx: averagedData.NOx || -1,
-			PM: averagedData.particulateMatter || -1,
-		},
+    {
+      Vehicle: selectedVehicle.vehicleName || "Unknown",
+      CO2: averagedData.CO ? Number(averagedData.CO.toFixed(2)) : -1,
+      NOx: averagedData.NOx ? Number(averagedData.NOx.toFixed(2)) : -1,
+      PM: averagedData.particulateMatter ? Number(averagedData.particulateMatter.toFixed(2)) : -1,
+    },
   ];
 
   let bulletData = [
 		{
 			id: selectedVehicle.vehicleName || "Unknown",
 			ranges: [0, 5, 10, 15, 20, 25, 30, 35, 40, 45, 50],
-			measures: [averagedData.mpg || 0],
+			measures: [averagedData.mpg ? Number(averagedData.mpg.toFixed(2)) : 0],
 			markers: [14],
 		},
   ];
