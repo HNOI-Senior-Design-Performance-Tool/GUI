@@ -24,7 +24,7 @@ export const AggregateDataProvider = ({ children }) => {
 		mpg: -1,
 	});
 
-	useEffect(() => {
+	const getAggregateData = () => {
 		if (selectedVehicle) {
 			// poll database for summed and averaged data
 			axios
@@ -45,10 +45,26 @@ export const AggregateDataProvider = ({ children }) => {
 					console.log(error);
 				});
 		}
+	}
+
+	const updateAggregateData = () => {
+		// Make API call to update aggregate data
+		axios
+			.post("http://localhost:8080/api/aggregateData/update")
+			.then((response) => {
+				getAggregateData();
+			})
+			.catch((error) => {
+				console.log(error);
+			});
+	};
+
+	useEffect(() => {
+		getAggregateData();
 	}, [selectedVehicle]);
 
 
 	return (
-		<AggregateDataContext.Provider value={{ summedData, averagedData }}>{children}</AggregateDataContext.Provider>
+		<AggregateDataContext.Provider value={{ summedData, averagedData, updateAggregateData }}>{children}</AggregateDataContext.Provider>
 	);
 };
