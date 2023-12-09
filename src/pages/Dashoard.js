@@ -36,7 +36,7 @@ const Dashboard = () => {
   const pollDatabase = () => {
     axios
       .get(
-        "http://localhost:8080/api/vehicleData/latestDataGT/" +
+        "https://hnoi-api.onrender.com/api/vehicleData/latestDataGT/" +
           latestTime.utc().format("YYYY-MM-DDTHH:mm:ss.SSS[Z]") +
           "?vehicleID=" + selectedVehicle.vehicleID
       )

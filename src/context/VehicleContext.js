@@ -17,7 +17,7 @@ export const VehicleProvider = ({ children }) => {
   const [vehicles, setVehicles] = useState([]);
   useEffect(() => {
     axios
-      .get("http://localhost:8080/api/vehicleData/vehicles")
+      .get("https://hnoi-api.onrender.com/api/vehicleData/vehicles")
       .then((response) => {
         const data = response.data;
         setVehicles(data);

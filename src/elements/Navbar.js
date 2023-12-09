@@ -32,7 +32,7 @@ const Navbar = () => {
 
 	const updateFuelLevel = () => {
 		axios
-			.get("http://localhost:8080/api/vehicleData/latestFuelLevel?vehicleID=" + selectedVehicle.vehicleID)
+			.get("https://hnoi-api.onrender.com/api/vehicleData/latestFuelLevel?vehicleID=" + selectedVehicle.vehicleID)
 			.then((response) => {
 				const data = response.data;
 				setFuelLevel(data.fuelLevel);
