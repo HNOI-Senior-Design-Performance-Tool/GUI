@@ -28,7 +28,7 @@ export const AggregateDataProvider = ({ children }) => {
 		if (selectedVehicle) {
 			// poll database for summed and averaged data
 			axios
-				.get("http://localhost:8080/api/aggregateData/sumData?vehicleID=" + selectedVehicle.vehicleID)
+				.get("https://hnoi-api.onrender.com/api/aggregateData/sumData?vehicleID=" + selectedVehicle.vehicleID)
 				.then((response) => {
 					setSummedData(response.data);
 				})
@@ -37,7 +37,7 @@ export const AggregateDataProvider = ({ children }) => {
 				});
 
 			axios
-				.get("http://localhost:8080/api/aggregateData/avgData?vehicleID=" + selectedVehicle.vehicleID)
+				.get("https://hnoi-api.onrender.com/api/aggregateData/avgData?vehicleID=" + selectedVehicle.vehicleID)
 				.then((response) => {
 					setAveragedData(response.data);
 				})
@@ -50,7 +50,7 @@ export const AggregateDataProvider = ({ children }) => {
 	const updateAggregateData = () => {
 		// Make API call to update aggregate data
 		axios
-			.post("http://localhost:8080/api/aggregateData/update")
+			.post("https://hnoi-api.onrender.com/api/aggregateData/update")
 			.then((response) => {
 				getAggregateData();
 			})

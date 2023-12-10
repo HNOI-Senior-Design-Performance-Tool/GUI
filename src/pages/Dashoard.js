@@ -78,8 +78,6 @@ const Dashboard = () => {
   };
 
   const getTimeDiffData = (data) => {
-    console.log(moment.utc());
-    console.log(data);
     return data.map((d) => ({
       x: "-" + moment.utc().diff(moment(d.x), "seconds"),
       y: d.y,

@@ -1,4 +1,5 @@
 import { Box, Grid, Typography, Button, CircularProgress } from "@mui/material";
+import { Addchart } from "@mui/icons-material";
 import { Container } from "@nivo/core";
 
 import { useState, useEffect, useContext } from "react";
@@ -87,11 +88,12 @@ const WithHydrogen = () => {
 
   return (
 		<Box>
+			
 			<Typography variant="h1" component="h2" align="center" sx={{ mt: 5, mb: 5 }}>
 				With Hydrogen
 			</Typography>
 
-			<Button variant="contained" onClick={updateData} disabled={isLoading}>
+			<Button variant="contained" color="success" sx={{ mb: 4 }} onClick={updateData} disabled={isLoading} startIcon={<Addchart/>}>
 				Update Aggregate Data
 			</Button>
 
