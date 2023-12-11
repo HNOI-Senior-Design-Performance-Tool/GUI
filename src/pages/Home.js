@@ -21,10 +21,30 @@ const Home = () => {
 
 									<div className="card m-3">
 										<div className="card-body">
-                      <p>Average MPG: {Number(averagedDataWithHydrogenFuel.mpg.toFixed(2))}</p>
-                      <p>Average CO Emissions: {Number(averagedDataWithHydrogenFuel.CO.toFixed(2))}</p>
-                      <p>Average NOx Emissions: {Number(averagedDataWithHydrogenFuel.NOx.toFixed(2))}</p>
-                      <p>Average Particulate Matter Emissions: {Number(averagedDataWithHydrogenFuel.particulateMatter.toFixed(2))}</p>
+											<p>
+												Average MPG:{" "}
+												{averagedDataWithHydrogenFuel.mpg
+													? Number(averagedDataWithHydrogenFuel.mpg.toFixed(2))
+													: "N/A"}
+											</p>
+											<p>
+												Average CO Emissions:{" "}
+												{averagedDataWithHydrogenFuel.CO
+													? Number(averagedDataWithHydrogenFuel.CO.toFixed(2))
+													: "N/A"}
+											</p>
+											<p>
+												Average NOx Emissions:{" "}
+												{averagedDataWithHydrogenFuel.NOx
+													? Number(averagedDataWithHydrogenFuel.NOx.toFixed(2))
+													: "N/A"}
+											</p>
+											<p>
+												Average Particulate Matter Emissions:{" "}
+												{averagedDataWithHydrogenFuel.particulateMatter
+													? Number(averagedDataWithHydrogenFuel.particulateMatter.toFixed(2))
+													: "N/A"}
+											</p>
 										</div>
 									</div>
 								</p>
@@ -42,10 +62,32 @@ const Home = () => {
 
 									<div className="card m-3">
 										<div className="card-body">
-                      <p>Average MPG: {Number(averagedDataWithoutHydrogenFuel.mpg.toFixed(2))}</p>
-                      <p>Average CO Emissions: {Number(averagedDataWithoutHydrogenFuel.CO.toFixed(2))}</p>
-                      <p>Average NOx Emissions: {Number(averagedDataWithoutHydrogenFuel.NOx.toFixed(2))}</p>
-                      <p>Average Particulate Matter Emissions: {Number(averagedDataWithoutHydrogenFuel.particulateMatter.toFixed(2))}</p>
+											<p>
+												Average MPG:{" "}
+												{averagedDataWithoutHydrogenFuel.mpg
+													? Number(averagedDataWithoutHydrogenFuel.mpg.toFixed(2))
+													: "N/A"}
+											</p>
+											<p>
+												Average CO Emissions:{" "}
+												{averagedDataWithoutHydrogenFuel.CO
+													? Number(averagedDataWithoutHydrogenFuel.CO.toFixed(2))
+													: "N/A"}
+											</p>
+											<p>
+												Average NOx Emissions:{" "}
+												{averagedDataWithoutHydrogenFuel.NOx
+													? Number(averagedDataWithoutHydrogenFuel.NOx.toFixed(2))
+													: "N/A"}
+											</p>
+											<p>
+												Average Particulate Matter Emissions:{" "}
+												{averagedDataWithoutHydrogenFuel.particulateMatter
+													? Number(
+															averagedDataWithoutHydrogenFuel.particulateMatter.toFixed(2)
+													  )
+													: "N/A"}
+											</p>
 										</div>
 									</div>
 								</p>
