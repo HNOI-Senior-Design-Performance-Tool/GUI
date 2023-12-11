@@ -41,18 +41,22 @@ const WithHydrogen = () => {
 
 
   const [barData, setBarData] = useState([
-    {
-      Vehicle: selectedVehicle.vehicleName + " - With Hydrogen Fuel" || "Unknown",
-      CO2: averagedDataWithHydrogenFuel.CO ? Number(averagedDataWithHydrogenFuel.CO.toFixed(2)) : -1,
-      NOx: averagedDataWithHydrogenFuel.NOx ? Number(averagedDataWithHydrogenFuel.NOx.toFixed(2)) : -1,
-      PM: averagedDataWithHydrogenFuel.particulateMatter ? Number(averagedDataWithHydrogenFuel.particulateMatter.toFixed(2)) : -1,
-    },
-	{
-	  Vehicle: selectedVehicle.vehicleName + " - Without Hydrogen Fuel" || "Unknown",
-	  CO2: averagedDataWithoutHydrogenFuel.CO ? Number(averagedDataWithoutHydrogenFuel.CO.toFixed(2)) : -1,
-	  NOx: averagedDataWithoutHydrogenFuel.NOx ? Number(averagedDataWithoutHydrogenFuel.NOx.toFixed(2)) : -1,
-	  PM: averagedDataWithoutHydrogenFuel.particulateMatter ? Number(averagedDataWithoutHydrogenFuel.particulateMatter.toFixed(2)) : -1,
-	}
+		{
+			Vehicle: "With Hydrogen Fuel" || "Unknown",
+			CO2: averagedDataWithHydrogenFuel.CO ? Number(averagedDataWithHydrogenFuel.CO.toFixed(2)) : -1,
+			NOx: averagedDataWithHydrogenFuel.NOx ? Number(averagedDataWithHydrogenFuel.NOx.toFixed(2)) : -1,
+			PM: averagedDataWithHydrogenFuel.particulateMatter
+				? Number(averagedDataWithHydrogenFuel.particulateMatter.toFixed(2))
+				: -1,
+		},
+		{
+			Vehicle: "Without Hydrogen Fuel" || "Unknown",
+			CO2: averagedDataWithoutHydrogenFuel.CO ? Number(averagedDataWithoutHydrogenFuel.CO.toFixed(2)) : -1,
+			NOx: averagedDataWithoutHydrogenFuel.NOx ? Number(averagedDataWithoutHydrogenFuel.NOx.toFixed(2)) : -1,
+			PM: averagedDataWithoutHydrogenFuel.particulateMatter
+				? Number(averagedDataWithoutHydrogenFuel.particulateMatter.toFixed(2))
+				: -1,
+		},
   ]);
 
   const [bulletData, setBulletData] = useState([
@@ -67,7 +71,7 @@ const WithHydrogen = () => {
   useEffect(() => {
     setBarData([
 		{
-			Vehicle: selectedVehicle.vehicleName + " - With Hydrogen Fuel" || "Unknown",
+			Vehicle: "With Hydrogen Fuel" || "Unknown",
 			CO2: averagedDataWithHydrogenFuel.CO ? Number(averagedDataWithHydrogenFuel.CO.toFixed(2)) : -1,
 			NOx: averagedDataWithHydrogenFuel.NOx ? Number(averagedDataWithHydrogenFuel.NOx.toFixed(2)) : -1,
 			PM: averagedDataWithHydrogenFuel.particulateMatter
@@ -75,7 +79,7 @@ const WithHydrogen = () => {
 				: -1,
 		},
 		{
-			Vehicle: selectedVehicle.vehicleName + " - Without Hydrogen Fuel" || "Unknown",
+			Vehicle: "Without Hydrogen Fuel" || "Unknown",
 			CO2: averagedDataWithoutHydrogenFuel.CO ? Number(averagedDataWithoutHydrogenFuel.CO.toFixed(2)) : -1,
 			NOx: averagedDataWithoutHydrogenFuel.NOx ? Number(averagedDataWithoutHydrogenFuel.NOx.toFixed(2)) : -1,
 			PM: averagedDataWithoutHydrogenFuel.particulateMatter
