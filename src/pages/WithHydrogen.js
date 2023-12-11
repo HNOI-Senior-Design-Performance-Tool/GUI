@@ -98,35 +98,44 @@ const WithHydrogen = () => {
 	]);
   }, [averagedDataWithHydrogenFuel, selectedVehicle]);
 
-  const updateData = async () => {
-		setIsLoading(true);
-    console.log("Updating data...");
-		try {
-			await updateAggregateData();
-		} catch (error) {
-			console.error(error);
-		} finally {
+const updateData = () => {
+	setIsLoading(true);
+	updateAggregateData()
+		.then(() => {
 			setIsLoading(false);
-      console.log("Data updated!");
-		}
-	};
+		})
+		.catch((error) => {
+			console.error(error);
+			setIsLoading(false);
+		});
+};
 
 
   return (
 		<Box>
-			
 			<Typography variant="h1" component="h2" align="center" sx={{ mt: 5, mb: 5 }}>
 				With Hydrogen
 			</Typography>
 
-			<Button variant="contained" color="success" sx={{ mb: 4 }} onClick={updateData} disabled={isLoading} startIcon={<Addchart/>}>
-				Update Aggregate Data
-			</Button>
+			<Grid container spacing={2} sx={{ pl: 2, pr: 2 }}>
+				<Grid item xs={3}>
+					<Button
+						variant="contained"
+						color="success"
+						sx={{ mb: 4 }}
+						onClick={updateData}
+						disabled={isLoading}
+						startIcon={<Addchart />}
+					>
+						Update Aggregate Data
+					</Button>
 
-			{isLoading && <CircularProgress />}
+					{isLoading && <CircularProgress color="success" sx={{ ml: 2 }} />}
+				</Grid>
+			</Grid>
 
 			<Container>
-				<Grid container spacing={2}>
+				<Grid container spacing={2} sx={{ pl: 2, pr: 2 }}>
 					<Grid item xs={4} style={{ height: 500 }}>
 						<CustomResponsiveBar
 							barData={barData}

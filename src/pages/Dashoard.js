@@ -25,9 +25,9 @@ const Dashboard = () => {
 
   // create a state for each line chart's data
   // initialize each state with the latest datapoint
-  const [pmData, setPmData] = useState([{ x: initTime, y: 0 }]);
-  const [noxData, setNoxData] = useState([{ x: initTime, y: 0 }]);
-  const [coData, setCoData] = useState([{ x: initTime, y: 0 }]);
+  const [pmData, setPmData] = useState([{ x: currentTime, y: 0 }]);
+  const [noxData, setNoxData] = useState([{ x: currentTime, y: 0 }]);
+  const [coData, setCoData] = useState([{ x: currentTime, y: 0 }]);
 
   const { selectedVehicle } = useContext(VehicleContext);
 
@@ -86,9 +86,9 @@ const Dashboard = () => {
   
   useEffect(() => {
 		// Reset the line chart data when selectedVehicle changes
-		setPmData([{ x: initTime, y: 0 }]);
-		setNoxData([{ x: initTime, y: 0 }]);
-		setCoData([{ x: initTime, y: 0 }]);
+		setPmData([{ x: currentTime, y: 0 }]);
+		setNoxData([{ x: currentTime, y: 0 }]);
+		setCoData([{ x: currentTime, y: 0 }]);
 
 		// Reset the latest time when selectedVehicle changes
 		setLatestTime(initTime);
@@ -129,84 +129,83 @@ const Dashboard = () => {
   };
 
   return (
-    <Container>
-      <Alert severity="info">
-        Current Time:{" "}
-        {currentTime.tz(userTimezone).format("MM-DD-YYYY HH:mm:ss")}
-      </Alert>
-      <Alert severity="info" sx={{ mb: 2 }}>
-        Data last recieved:{" "}
-        {latestTime.tz(userTimezone).format("MM-DD-YYYY HH:mm:ss")}
-      </Alert>
+		<Container>
+			<Grid container spacing={{ xs: 2, md: 3 }} columns={{ xs: 4, sm: 8, md: 12 }} sx={{ pt: 3, pl: 2, pr: 2 }}>
+				<Grid item xs={3}>
+					<Alert severity="info">
+						Current Time: {currentTime.tz(userTimezone).format("MM-DD-YYYY HH:mm:ss")}
+					</Alert>
+				</Grid>
 
-      <Box sx={{ width: 250, height: 300 }}>
-        <Typography id="input-slider" gutterBottom>
-          Max Number of Data Points
-        </Typography>
+				<Grid item xs={3}>
+					<Alert severity="info" sx={{ mb: 2 }}>
+						Data Last Recieved: {latestTime.tz(userTimezone).format("MM-DD-YYYY HH:mm:ss")}
+					</Alert>
+				</Grid>
 
-        <Grid container spacing={2} alignItems="center">
-          <Grid item>
-            <TimelineRoundedIcon />
-          </Grid>
+				<Grid item xs={2}>
+					<Box sx={{ width: 250, height: 100, justifyContent: "center", alignItems: "center" }}>
+						<Typography id="input-slider" gutterBottom>
+							Max Number of Data Points
+						</Typography>
 
-          <Grid item xs>
-            <CustomSlider
-              value={maxNumDataPoints}
-              onChange={handleSliderChange}
-              onBlur={handleBlur}
-              aria-labelledby="input-slider"
-              step={1}
-              min={1}
-              max={absoluteMaxNumDataPoints}
-            />
-          </Grid>
+						<Grid container spacing={2} alignItems="center">
+							<Grid item>
+								<TimelineRoundedIcon />
+							</Grid>
 
-          <Grid item>
-            <Input
-              value={maxNumDataPoints}
-              size="small"
-              onChange={handleInputChange}
-              onBlur={handleBlur}
-              inputProps={{
-                step: 1,
-                min: 1,
-                max: absoluteMaxNumDataPoints,
-                type: "number",
-                "aria-labelledby": "input-slider",
-              }}
-            />
-          </Grid>
-        </Grid>
-      </Box>
+							<Grid item xs={3}>
+								<CustomSlider
+									value={maxNumDataPoints}
+									onChange={handleSliderChange}
+									onBlur={handleBlur}
+									aria-labelledby="input-slider"
+									step={1}
+									min={1}
+									max={absoluteMaxNumDataPoints}
+								/>
+							</Grid>
 
-      <Container>
-        <Grid container spacing={2}>
-          <Grid xs={4} style={{ height: 300 }}>
-            <LiveLineChart
-              botAxisLabel="Time"
-              leftAxisLabel="Particulate Matter"
-              data={getTimeDiffData(pmData, "particulateMatter")}
-            />
-          </Grid>
+							<Grid item xs={3}>
+								<Input
+									value={maxNumDataPoints}
+									size="small"
+									onChange={handleInputChange}
+									onBlur={handleBlur}
+									inputProps={{
+										step: 1,
+										min: 1,
+										max: absoluteMaxNumDataPoints,
+										type: "number",
+										"aria-labelledby": "input-slider",
+									}}
+								/>
+							</Grid>
+						</Grid>
+					</Box>
+				</Grid>
+			</Grid>
 
-          <Grid xs={4} style={{ height: 300 }}>
-            <LiveLineChart
-              botAxisLabel="Time"
-              leftAxisLabel="NOx"
-              data={getTimeDiffData(noxData, "NOx")}
-            />
-          </Grid>
+			<Container>
+				<Grid container spacing={2} sx={{ pl: 4, pr: 2 }}>
+					<Grid xs={4} style={{ height: 300 }}>
+						<LiveLineChart
+							botAxisLabel="Time"
+							leftAxisLabel="Particulate Matter"
+							data={getTimeDiffData(pmData, "particulateMatter")}
+						/>
+					</Grid>
 
-          <Grid xs={4} style={{ height: 300 }}>
-            <LiveLineChart
-              botAxisLabel="Time"
-              leftAxisLabel="CO"
-              data={getTimeDiffData(coData, "CO")}
-            />
-          </Grid>
-        </Grid>
-      </Container>
-    </Container>
+					<Grid xs={4} style={{ height: 300 }}>
+						<LiveLineChart botAxisLabel="Time" leftAxisLabel="NOx" data={getTimeDiffData(noxData, "NOx")} />
+					</Grid>
+
+					<Grid xs={4} style={{ height: 300 }}>
+						<LiveLineChart botAxisLabel="Time" leftAxisLabel="CO" data={getTimeDiffData(coData, "CO")} />
+					</Grid>
+				</Grid>
+			</Container>
+		</Container>
   );
 };
 

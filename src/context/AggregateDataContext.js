@@ -81,15 +81,19 @@ export const AggregateDataProvider = ({ children }) => {
 	}
 
 	const updateAggregateData = () => {
-		// Make API call to update aggregate data
-		axios
-			.post("https://hnoi-api.onrender.com/api/aggregateData/update")
-			.then((response) => {
-				getAggregateData();
-			})
-			.catch((error) => {
-				console.log(error);
-			});
+		return new Promise((resolve, reject) => {
+			// Make API call to update aggregate data
+			axios
+				.post("https://hnoi-api.onrender.com/api/aggregateData/update")
+				.then((response) => {
+					getAggregateData();
+					resolve(response.data);
+				})
+				.catch((error) => {
+					console.log(error);
+					reject(error);
+				});
+		});
 	};
 
 	useEffect(() => {

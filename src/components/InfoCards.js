@@ -84,7 +84,7 @@ export const EmissionInfoCard = ({ data, emissionType}) => {
         break;
 
       default:
-        setTitle("Click on a bar to see more info");
+        setTitle("Click on a bar for more info");
         setBody("");
         setLink("");
     }
