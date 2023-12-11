@@ -41,14 +41,14 @@ export const AggregateDataProvider = ({ children }) => {
 	const getAggregateData = () => {
 		if (selectedVehicle) {
 			// poll database for summed and averaged data
-			axios
-				.get("https://hnoi-api.onrender.com/api/aggregateData/sumData?vehicleID=" + selectedVehicle.vehicleID + "&hydrogenFuel=true")
-				.then((response) => {
-					setSummedDataWithHydrogenFuel(response.data);
-				})
-				.catch((error) => {
-					console.log(error);
-				});
+			// axios
+			// 	.get("https://hnoi-api.onrender.com/api/aggregateData/sumData?vehicleID=" + selectedVehicle.vehicleID + "&hydrogenFuel=true")
+			// 	.then((response) => {
+			// 		setSummedDataWithHydrogenFuel(response.data);
+			// 	})
+			// 	.catch((error) => {
+			// 		console.log(error);
+			// 	});
 
 			axios
 				.get("https://hnoi-api.onrender.com/api/aggregateData/avgData?vehicleID=" + selectedVehicle.vehicleID + "&hydrogenFuel=true")
@@ -59,14 +59,14 @@ export const AggregateDataProvider = ({ children }) => {
 					console.log(error);
 				});
 
-			axios
-				.get("https://hnoi-api.onrender.com/api/aggregateData/sumData?vehicleID=" + selectedVehicle.vehicleID + "&hydrogenFuel=false")
-				.then((response) => {
-					setSummedDataWithoutHydrogenFuel(response.data);
-				})
-				.catch((error) => {
-					console.log(error);
-				});
+			// axios
+			// 	.get("https://hnoi-api.onrender.com/api/aggregateData/sumData?vehicleID=" + selectedVehicle.vehicleID + "&hydrogenFuel=false")
+			// 	.then((response) => {
+			// 		setSummedDataWithoutHydrogenFuel(response.data);
+			// 	})
+			// 	.catch((error) => {
+			// 		console.log(error);
+			// 	});
 
 			axios
 				.get("https://hnoi-api.onrender.com/api/aggregateData/avgData?vehicleID=" + selectedVehicle.vehicleID + "&hydrogenFuel=false")
