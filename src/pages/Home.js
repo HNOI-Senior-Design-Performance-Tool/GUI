@@ -2,69 +2,63 @@ import {NavLink} from "react-router-dom";
 import hydrogen from "../assets/hydrogen.png";
 import gas from "../assets/gas.png";
 
+import { useContext } from "react";
+import { AggregateDataContext } from "../context/AggregateDataContext";
+
 const Home = () => {
-    return (
-      <>
-        <div className="container-fluid">
-          <div className="row my-3">
-            <div className="col">
-              <div className="card jumbotron bg-primary">
-                <div className="card-body text-center">
-                  <p className="card-text">
-                    <img
-                      style={{ height: "30vh" }}
-                      src={hydrogen}
-                      alt={"Hydrogen Fuel"}
-                    />
 
-                    <div className="card m-3">
-                      <div className="card-body">
-                        <p>Hydrogen Level: 75 %</p>
-                        <p>Co2 Reduction: 3923 grams</p>
-                        <p>Current MPG: 14.6 MPG</p>
-                      </div>
-                    </div>
-                  </p>
-                  <NavLink
-                    to="/home/withHydrogen"
-                    className="btn btn-outline-light"
-                  >
-                    Your Vehicle With Hydrogen
-                  </NavLink>
-                </div>
-              </div>
-            </div>
-            <div className="col">
-              <div className="card bg-danger h-100">
-                <div className="card-body text-center">
-                  <p className="card-text">
-                    <img
-                      style={{ height: "30vh" }}
-                      src={gas}
-                      alt={"Fossil Fuel"}
-                    />
+  const { averagedDataWithHydrogenFuel, averagedDataWithoutHydrogenFuel } = useContext(AggregateDataContext);
 
-                    <div className="card m-3">
-                      <div className="card-body">
-                        <p>Diesel Particulate Reduction: 20 %</p>
-                        <p>Fuel Savings: 0.385 gpm</p>
-                        <p>Default MPG: 12 MPG</p>
-                      </div>
-                    </div>
-                  </p>
-                  <NavLink
-                    to="/home/withoutHydrogen"
-                    className="btn btn-outline-light"
-                  >
-                    Your Vehicle Without Hydrogen
-                  </NavLink>
-                </div>
-              </div>
-            </div>
-          </div>
-        </div>
-      </>
-    );
+  return (
+		<>
+			<div className="container-fluid">
+				<div className="row my-3">
+					<div className="col">
+						<div className="card jumbotron bg-primary">
+							<div className="card-body text-center">
+								<p className="card-text">
+									<img style={{ height: "30vh" }} src={hydrogen} alt={"Hydrogen Fuel"} />
+
+									<div className="card m-3">
+										<div className="card-body">
+                      <p>Average MPG: {Number(averagedDataWithHydrogenFuel.mpg.toFixed(2))}</p>
+                      <p>Average CO Emissions: {Number(averagedDataWithHydrogenFuel.CO.toFixed(2))}</p>
+                      <p>Average NOx Emissions: {Number(averagedDataWithHydrogenFuel.NOx.toFixed(2))}</p>
+                      <p>Average Particulate Matter Emissions: {Number(averagedDataWithHydrogenFuel.particulateMatter.toFixed(2))}</p>
+										</div>
+									</div>
+								</p>
+								<NavLink to="/home/withHydrogen" className="btn btn-outline-light">
+									Your Vehicle With Hydrogen
+								</NavLink>
+							</div>
+						</div>
+					</div>
+					<div className="col">
+						<div className="card bg-danger h-100">
+							<div className="card-body text-center">
+								<p className="card-text">
+									<img style={{ height: "30vh" }} src={gas} alt={"Fossil Fuel"} />
+
+									<div className="card m-3">
+										<div className="card-body">
+                      <p>Average MPG: {Number(averagedDataWithoutHydrogenFuel.mpg.toFixed(2))}</p>
+                      <p>Average CO Emissions: {Number(averagedDataWithoutHydrogenFuel.CO.toFixed(2))}</p>
+                      <p>Average NOx Emissions: {Number(averagedDataWithoutHydrogenFuel.NOx.toFixed(2))}</p>
+                      <p>Average Particulate Matter Emissions: {Number(averagedDataWithoutHydrogenFuel.particulateMatter.toFixed(2))}</p>
+										</div>
+									</div>
+								</p>
+								<NavLink to="/home/withoutHydrogen" className="btn btn-outline-light">
+									Your Vehicle Without Hydrogen
+								</NavLink>
+							</div>
+						</div>
+					</div>
+				</div>
+			</div>
+		</>
+  );
 }
 
 export default Home
