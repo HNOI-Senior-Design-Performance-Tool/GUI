@@ -17,7 +17,7 @@ const Dashboard = () => {
   const [maxNumDataPoints, setMaxNumDataPoints] = useState(30); // max number of data points to display on the chart
 
   // const initTime = moment.utc();
-  const initTime = moment("2000-10-01T00:00:00.000Z");
+  const initTime = moment("2000-01-01T00:00:00.000Z");
 
   const [latestTime, setLatestTime] = useState(initTime); // latest timestamp of data received from the database
   const [currentTime, setCurrentTime] = useState(moment.utc()); // current time
@@ -28,6 +28,7 @@ const Dashboard = () => {
   const [pmData, setPmData] = useState([{ x: currentTime, y: 0 }]);
   const [noxData, setNoxData] = useState([{ x: currentTime, y: 0 }]);
   const [coData, setCoData] = useState([{ x: currentTime, y: 0 }]);
+  const [flowRateData, setFlowRateData] = useState([{ x: currentTime, y: 0 }]);
 
   const { selectedVehicle } = useContext(VehicleContext);
 
@@ -53,12 +54,14 @@ const Dashboard = () => {
 				setPmData(trimData(pmData.concat(data.map((d) => ({ x: d.createdAt, y: d.particulateMatter })))));
 				setNoxData(trimData(noxData.concat(data.map((d) => ({ x: d.createdAt, y: d.NOx })))));
 				setCoData(trimData(coData.concat(data.map((d) => ({ x: d.createdAt, y: d.CO })))));
+				setFlowRateData(trimData(flowRateData.concat(data.map((d) => ({ x: d.createdAt, y: d.flowrate })))));
 			}
       else {
         // Trim the data arrays to the max number of data points
         setPmData(trimData(pmData));
         setNoxData(trimData(noxData));
         setCoData(trimData(coData));
+		setFlowRateData(trimData(flowRateData));
       }
 
 
@@ -89,6 +92,7 @@ const Dashboard = () => {
 		setPmData([{ x: currentTime, y: 0 }]);
 		setNoxData([{ x: currentTime, y: 0 }]);
 		setCoData([{ x: currentTime, y: 0 }]);
+		setFlowRateData([{ x: currentTime, y: 0 }]);
 
 		// Reset the latest time when selectedVehicle changes
 		setLatestTime(initTime);
@@ -181,6 +185,8 @@ const Dashboard = () => {
 									}}
 								/>
 							</Grid>
+
+							
 						</Grid>
 					</Box>
 				</Grid>
@@ -188,7 +194,7 @@ const Dashboard = () => {
 
 			<Container>
 				<Grid container spacing={2} sx={{ pl: 4, pr: 2 }}>
-					<Grid xs={4} style={{ height: 300 }}>
+					<Grid xs={6} style={{ height: 300 }}>
 						<LiveLineChart
 							botAxisLabel="Time"
 							leftAxisLabel="Particulate Matter"
@@ -196,13 +202,22 @@ const Dashboard = () => {
 						/>
 					</Grid>
 
-					<Grid xs={4} style={{ height: 300 }}>
+					<Grid xs={6} style={{ height: 300 }}>
 						<LiveLineChart botAxisLabel="Time" leftAxisLabel="NOx" data={getTimeDiffData(noxData, "NOx")} />
 					</Grid>
 
-					<Grid xs={4} style={{ height: 300 }}>
+					<Grid xs={6} style={{ height: 300 }}>
 						<LiveLineChart botAxisLabel="Time" leftAxisLabel="CO" data={getTimeDiffData(coData, "CO")} />
 					</Grid>
+
+					<Grid xs={6} style={{ height: 300 }}>
+						<LiveLineChart
+							botAxisLabel="Time"
+							leftAxisLabel="Flow Rate"
+							data={getTimeDiffData(flowRateData, "flowrate")}
+						/>
+					</Grid>
+
 				</Grid>
 			</Container>
 		</Container>
