@@ -99,7 +99,7 @@ const About = () => {
                     <img style={teamImageStyle} src={Ivan} alt="Ivan" />
                     <h2>Ivan</h2>
                     <h2>Pang</h2>
-                    <p style={teamTitleStyle}>GUI Lead</p>
+                    <p style={teamTitleStyle}>API Lead</p>
                     <p style={teamEmailStyle}>ipang6273@sdsu.edu</p>
                 </div>
 
@@ -110,7 +110,7 @@ const About = () => {
                 >
                     <img style={teamImageStyle} src={Cameron} alt="Cameron" />
                     <h2>Cameron Settles</h2>
-                    <p style={teamTitleStyle}>API Lead</p>
+                    <p style={teamTitleStyle}>GUI Lead</p>
                     <p style={teamEmailStyle}>csettles7588@sdsu.edu</p>
                 </div>
 
@@ -121,7 +121,7 @@ const About = () => {
                 >
                     <img style={teamImageStyle} src={Alvin} alt="Alvin" />
                     <h2>Alvin Rofael</h2>
-                    <p style={teamTitleStyle}>Project coordinator</p>
+                    <p style={teamTitleStyle}>Project Coordinator</p>
                     <p style={teamEmailStyle}>arofael9581@sdsu.edu</p>
                 </div>
             </div>
