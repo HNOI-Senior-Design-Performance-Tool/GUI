@@ -85,7 +85,7 @@ const Navbar = () => {
 								>
 									{vehicles.map((vehicle) => (
 										<option key={vehicle.vehicleID} value={vehicle.vehicleID}>
-											{ vehicle.vehicleID }
+											{vehicle.vehicleName + " - " + vehicle.vehicleID}
 										</option>
 									))}
 								</Form.Select>
