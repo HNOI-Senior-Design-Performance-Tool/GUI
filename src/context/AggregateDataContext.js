@@ -10,14 +10,28 @@ export const AggregateDataContext = createContext(null);
 export const AggregateDataProvider = ({ children }) => {
 	const { selectedVehicle } = useContext(VehicleContext);
 
-	const [summedData, setSummedData] = useState({
+	const [summedDataWithHydrogenFuel, setSummedDataWithHydrogenFuel] = useState({
 		CO: -1,
 		NOx: -1,
 		particulateMatter: -1,
 		mpg: -1,
 	});
 
-	const [averagedData, setAveragedData] = useState({
+	const [averagedDataWithHydrogenFuel, setAveragedDataWithHydrogenFuel] = useState({
+		CO: -1,
+		NOx: -1,
+		particulateMatter: -1,
+		mpg: -1,
+	});
+
+	const [summedDataWithoutHydrogenFuel, setSummedDataWithoutHydrogenFuel] = useState({
+		CO: -1,
+		NOx: -1,
+		particulateMatter: -1,
+		mpg: -1,
+	});
+
+	const [averagedDataWithoutHydrogenFuel, setAveragedDataWithoutHydrogenFuel] = useState({
 		CO: -1,
 		NOx: -1,
 		particulateMatter: -1,
@@ -28,22 +42,41 @@ export const AggregateDataProvider = ({ children }) => {
 		if (selectedVehicle) {
 			// poll database for summed and averaged data
 			axios
-				.get("https://hnoi-api.onrender.com/api/aggregateData/sumData?vehicleID=" + selectedVehicle.vehicleID)
+				.get("https://hnoi-api.onrender.com/api/aggregateData/sumData?vehicleID=" + selectedVehicle.vehicleID + "&hydrogenFuel=true")
 				.then((response) => {
-					setSummedData(response.data);
+					setSummedDataWithHydrogenFuel(response.data);
 				})
 				.catch((error) => {
 					console.log(error);
 				});
 
 			axios
-				.get("https://hnoi-api.onrender.com/api/aggregateData/avgData?vehicleID=" + selectedVehicle.vehicleID)
+				.get("https://hnoi-api.onrender.com/api/aggregateData/avgData?vehicleID=" + selectedVehicle.vehicleID + "&hydrogenFuel=true")
 				.then((response) => {
-					setAveragedData(response.data);
+					setAveragedDataWithHydrogenFuel(response.data);
 				})
 				.catch((error) => {
 					console.log(error);
 				});
+
+			axios
+				.get("https://hnoi-api.onrender.com/api/aggregateData/sumData?vehicleID=" + selectedVehicle.vehicleID + "&hydrogenFuel=false")
+				.then((response) => {
+					setSummedDataWithoutHydrogenFuel(response.data);
+				})
+				.catch((error) => {
+					console.log(error);
+				});
+
+			axios
+				.get("https://hnoi-api.onrender.com/api/aggregateData/avgData?vehicleID=" + selectedVehicle.vehicleID + "&hydrogenFuel=false")
+				.then((response) => {
+					setAveragedDataWithoutHydrogenFuel(response.data);
+				})
+				.catch((error) => {
+					console.log(error);
+				});
+			
 		}
 	}
 
@@ -65,6 +98,10 @@ export const AggregateDataProvider = ({ children }) => {
 
 
 	return (
-		<AggregateDataContext.Provider value={{ summedData, averagedData, updateAggregateData }}>{children}</AggregateDataContext.Provider>
+		<AggregateDataContext.Provider
+			value={{ summedDataWithHydrogenFuel, averagedDataWithHydrogenFuel, summedDataWithoutHydrogenFuel, averagedDataWithoutHydrogenFuel, updateAggregateData }}
+		>
+			{children}
+		</AggregateDataContext.Provider>
 	);
 };

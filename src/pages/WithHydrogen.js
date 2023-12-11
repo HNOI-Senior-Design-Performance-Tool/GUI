@@ -20,7 +20,13 @@ const WithHydrogen = () => {
   const theme = useTheme();
   const colors = tokens(theme.palette.mode);
 
-  const { averagedData, summedData, updateAggregateData } = useContext(AggregateDataContext);
+  const { averagedDataWithHydrogenFuel,
+		  averagedDataWithoutHydrogenFuel,
+		  summedDataWithHydrogenFuel,
+		  summedDataWithoutHydrogenFuel,
+		  updateAggregateData 
+		} = useContext(AggregateDataContext);
+
   const { selectedVehicle } = useContext(VehicleContext);
 
   const [selectedEmissionType, setSelectedEmissionType] = useState("default");
@@ -36,41 +42,57 @@ const WithHydrogen = () => {
 
   const [barData, setBarData] = useState([
     {
-      Vehicle: selectedVehicle.vehicleName || "Unknown",
-      CO2: averagedData.CO ? Number(averagedData.CO.toFixed(2)) : -1,
-      NOx: averagedData.NOx ? Number(averagedData.NOx.toFixed(2)) : -1,
-      PM: averagedData.particulateMatter ? Number(averagedData.particulateMatter.toFixed(2)) : -1,
+      Vehicle: selectedVehicle.vehicleName + " - With Hydrogen Fuel" || "Unknown",
+      CO2: averagedDataWithHydrogenFuel.CO ? Number(averagedDataWithHydrogenFuel.CO.toFixed(2)) : -1,
+      NOx: averagedDataWithHydrogenFuel.NOx ? Number(averagedDataWithHydrogenFuel.NOx.toFixed(2)) : -1,
+      PM: averagedDataWithHydrogenFuel.particulateMatter ? Number(averagedDataWithHydrogenFuel.particulateMatter.toFixed(2)) : -1,
     },
+	{
+	  Vehicle: selectedVehicle.vehicleName + " - Without Hydrogen Fuel" || "Unknown",
+	  CO2: averagedDataWithoutHydrogenFuel.CO ? Number(averagedDataWithoutHydrogenFuel.CO.toFixed(2)) : -1,
+	  NOx: averagedDataWithoutHydrogenFuel.NOx ? Number(averagedDataWithoutHydrogenFuel.NOx.toFixed(2)) : -1,
+	  PM: averagedDataWithoutHydrogenFuel.particulateMatter ? Number(averagedDataWithoutHydrogenFuel.particulateMatter.toFixed(2)) : -1,
+	}
   ]);
 
   const [bulletData, setBulletData] = useState([
     {
       id: selectedVehicle.vehicleName || "Unknown",
       ranges: [0, 5, 10, 15, 20, 25, 30, 35, 40, 45, 50],
-      measures: [averagedData.mpg ? Number(averagedData.mpg.toFixed(2)) : 0],
-      markers: [14],
+      measures: [averagedDataWithHydrogenFuel.mpg ? Number(averagedDataWithHydrogenFuel.mpg.toFixed(2)) : 0],
+      markers: [averagedDataWithoutHydrogenFuel.mpg ? Number(averagedDataWithoutHydrogenFuel.mpg.toFixed(2)) : 0],
     },
   ]);
 
   useEffect(() => {
     setBarData([
-      {
-        Vehicle: selectedVehicle.vehicleName || "Unknown",
-        CO2: averagedData.CO ? Number(averagedData.CO.toFixed(2)) : -1,
-        NOx: averagedData.NOx ? Number(averagedData.NOx.toFixed(2)) : -1,
-        PM: averagedData.particulateMatter ? Number(averagedData.particulateMatter.toFixed(2)) : -1,
-      },
-    ]);
+		{
+			Vehicle: selectedVehicle.vehicleName + " - With Hydrogen Fuel" || "Unknown",
+			CO2: averagedDataWithHydrogenFuel.CO ? Number(averagedDataWithHydrogenFuel.CO.toFixed(2)) : -1,
+			NOx: averagedDataWithHydrogenFuel.NOx ? Number(averagedDataWithHydrogenFuel.NOx.toFixed(2)) : -1,
+			PM: averagedDataWithHydrogenFuel.particulateMatter
+				? Number(averagedDataWithHydrogenFuel.particulateMatter.toFixed(2))
+				: -1,
+		},
+		{
+			Vehicle: selectedVehicle.vehicleName + " - Without Hydrogen Fuel" || "Unknown",
+			CO2: averagedDataWithoutHydrogenFuel.CO ? Number(averagedDataWithoutHydrogenFuel.CO.toFixed(2)) : -1,
+			NOx: averagedDataWithoutHydrogenFuel.NOx ? Number(averagedDataWithoutHydrogenFuel.NOx.toFixed(2)) : -1,
+			PM: averagedDataWithoutHydrogenFuel.particulateMatter
+				? Number(averagedDataWithoutHydrogenFuel.particulateMatter.toFixed(2))
+				: -1,
+		},
+	]);
 
     setBulletData([
-      {
-        id: selectedVehicle.vehicleName || "Unknown",
-        ranges: [0, 5, 10, 15, 20, 25, 30, 35, 40, 45, 50],
-        measures: [averagedData.mpg ? Number(averagedData.mpg.toFixed(2)) : 0],
-        markers: [14],
-      },
-    ]);
-  }, [averagedData, selectedVehicle]);
+		{
+			id: selectedVehicle.vehicleName || "Unknown",
+			ranges: [0, 5, 10, 15, 20, 25, 30, 35, 40, 45, 50],
+			measures: [averagedDataWithHydrogenFuel.mpg ? Number(averagedDataWithHydrogenFuel.mpg.toFixed(2)) : 0],
+			markers: [averagedDataWithoutHydrogenFuel.mpg ? Number(averagedDataWithoutHydrogenFuel.mpg.toFixed(2)) : 0],
+		},
+	]);
+  }, [averagedDataWithHydrogenFuel, selectedVehicle]);
 
   const updateData = async () => {
 		setIsLoading(true);
